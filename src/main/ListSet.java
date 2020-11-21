@@ -19,6 +19,13 @@ public class ListSet implements Iterable<Integer> {
         return list.isEmpty();
     }
 
+    /**
+     * axsor: Borreu-la si voleu, però m'agrada poder llegir el codi
+     */
+    public boolean isNotEmpty() {
+        return !list.isEmpty();
+    }
+
     public int size() {
         return list.size();
     }
@@ -31,38 +38,82 @@ public class ListSet implements Iterable<Integer> {
         return list.get(index);
     }
 
+    /**
+     * Adds new element into the list sorting by value.
+     *
+     * @param number Element to add
+     */
     public void add(Integer number) {
-        if (isEmpty()) list.add(number);
+        if (isEmpty())
+            list.add(number);
         else {
             int compareResult;
-            for (int i = 0; i < this.size(); i++) {
 
+            loop:
+            for (int i = 0; i < size(); i++) {
                 compareResult = list.get(i).compareTo(number);
 
-                if (compareResult == 0) break;
-
-                if (compareResult == -1) {
-                    if (i == this.size() - 1) {
-                        list.add(number);
+                switch (compareResult) {
+                    case -1:
+                        if (i == size() - 1) {
+                            list.add(number);
+                            break loop;
+                        }
                         break;
-                    }
-                }
-
-                if (compareResult == 1) {
-                    int originalSize = this.size();
-                    for (int j = originalSize; j > i; j--) {
-                        if (j == originalSize) list.add(list.get(j - 1));
-                        else list.set(j, list.get(j - 1));
-                    }
-                    list.set(i, number);
-                    break;
+                    case 0:
+                        break loop;
+                    case 1:
+                        set(i, number);
+                        break loop;
                 }
             }
         }
     }
 
+    /**
+     * Adds new elements into the list.
+     *
+     * @param listSet Elements to add
+     */
     public void addAll(ListSet listSet) {
-        list.addAll(listSet.getList());
+        if (listSet.isNotEmpty()) {
+            if (isEmpty())
+                for (Integer number : listSet) list.add(number);
+            else {
+                int compareResult, i = 0, j = 0;
+
+                while (i < size() && j < listSet.size()) {
+                    compareResult = list.get(i).compareTo(listSet.get(j));
+
+                    switch (compareResult) {
+                        case 1:
+                            set(i, listSet.get(j));
+                        case 0:
+                            i++; j++;
+                            break;
+                        case -1:
+                            j++;
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets an element at the specified position of `list` moving one position the rest of the greatest elements.
+     *
+     * @param index  Position where to place the element
+     * @param number Element to place
+     */
+    private void set(int index, Integer number) {
+        int originalSize = size();
+
+        list.add(list.get(originalSize - 1));
+
+        for (int j = originalSize - 1; j > index; j--) list.set(j, list.get(j - 1));
+
+        list.set(index, number);
     }
 
     @Override
