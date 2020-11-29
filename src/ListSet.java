@@ -119,7 +119,7 @@ public class ListSet implements Iterable<Integer> {
      * @return ListSet with the intersection of the two ListSet
      */
     public ListSet retainAll(ListSet intersectedSet) {
-        private ListSet intersectionList = new ListSet();
+        ListSet intersectionList = new ListSet();
         for (element : intersectedSet) {
             if (this.contains(element)) {
                 intersectionList.add(element);
@@ -198,3 +198,4 @@ public class ListSet implements Iterable<Integer> {
         return sb.toString();
     }
 }
+
