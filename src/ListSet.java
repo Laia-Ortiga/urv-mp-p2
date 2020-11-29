@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class ListSet implements Iterable<Integer> {
@@ -28,7 +29,12 @@ public class ListSet implements Iterable<Integer> {
     }
 
     public boolean remove(Integer x) {
-        return list.remove(x);
+        int index = Collections.binarySearch(list, x);
+        if (index >= 0) {
+            list.remove(index);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeAll(ListSet x) {
