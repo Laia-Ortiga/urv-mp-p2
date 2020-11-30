@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -12,17 +14,17 @@ public class Main {
         a.add(10);
         a.add(30);
         ArrayList<Integer> b = new ArrayList<>();
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + \n);
+        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
         b.add(5);
-        System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +\n);
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + \n);
+        System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
+        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
         b.add(6);
-        System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +\n);
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + \n);
+        System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
+        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
         b.add(7);
         b.add(33);
-        System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +\n);
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + \n);
+        System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
+        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
     }
 
 }

@@ -1,9 +1,5 @@
-package urv.mp.labs.lab10;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ListSet implements Iterable<Integer> {
 
@@ -44,21 +40,7 @@ public class ListSet implements Iterable<Integer> {
 
     @Override
     public Iterator<Integer> iterator() {
-        // TO BE COMPLETED
-        // Returning 'null' here merely as a placeholder. Not an adequate implementation.
-        // How would you complete/correct this? The solution is a simple delegation onto a method of the List object.
-        return list.iterator();
-        // throw new UnsupportedOperationException();
-    }
-
-    // CLEAR
-    // Simplest case of delegation: The clear() method of ListSet is directly the clear() method of List.
-    public void clear() {
-        integerList.clear();
-    }
-
-    public int size() {
-        return list.size();
+        return integerList.iterator();
     }
 
     // CONTAINS METHODS
@@ -78,7 +60,7 @@ public class ListSet implements Iterable<Integer> {
 
     public boolean contains(Integer integerElement) {
         // We used the already implemented Collections class method binarySearch.
-        return Collections.binarySearch(this, integerElement);
+        return Collections.binarySearch(integerList, integerElement) >= 0;
     }
 
     // Contains subset
@@ -89,16 +71,16 @@ public class ListSet implements Iterable<Integer> {
      * It uses the method contains implemented using a binary search, so having the ListSet
      * sorted is one prerequisite.
      *
-     * @param ListSet to be checked whether it is a subset or not of the current ListSet
+     * @param subsetCandidate to be checked whether it is a subset or not of the current ListSet
      * @return boolean indicating whether a ListSet is a subset or not
      */
 
     public boolean containsAll(ListSet subsetCandidate) {
-        result = true;
+        boolean result = true;
         int counter = 0;
-        lengthSubsetCandidate = subsetCandidate.size();
+        int lengthSubsetCandidate = subsetCandidate.integerList.size();
         while (result && counter < lengthSubsetCandidate) {
-            if (!contains(subsetCandidate[counter])) {
+            if (contains(subsetCandidate.integerList.get(counter))) {
                 result = false;
             }
             counter++;
@@ -120,7 +102,7 @@ public class ListSet implements Iterable<Integer> {
      */
     public ListSet retainAll(ListSet intersectedSet) {
         ListSet intersectionList = new ListSet();
-        for (element : intersectedSet) {
+        for (Integer element : intersectedSet) {
             if (this.contains(element)) {
                 intersectionList.add(element);
             }
@@ -188,8 +170,8 @@ public class ListSet implements Iterable<Integer> {
         // depending on whether the list is sorted or not.
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        for (var x : list) {
-            if (x != list.get(0)) {
+        for (var x : integerList) {
+            if (x != integerList.get(0)) {
                 sb.append(", ");
             }
             sb.append(x);
