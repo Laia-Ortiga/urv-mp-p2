@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class ListSet implements Iterable<Integer> {
@@ -39,65 +40,50 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Adds new element into the list sorting by value.
+     * Adds new element into the list sorting it ascending by value.
      *
-     * @param number Element to add
+     * @param number Element to be added
      */
-    public void add(Integer number) {
-        if (isEmpty())
-            list.add(number);
-        else {
-            int compareResult;
+    public boolean add(Integer number) {
+        int index = Collections.binarySearch(list, number);
 
-            loop:
-            for (int i = 0; i < size(); i++) {
-                compareResult = list.get(i).compareTo(number);
-
-                switch (compareResult) {
-                    case -1:
-                        if (i == size() - 1) {
-                            list.add(number);
-                            break loop;
-                        }
-                        break;
-                    case 0:
-                        break loop;
-                    case 1:
-                        set(i, number);
-                        break loop;
-                }
-            }
+        if (index < 0) {
+            list.add(-index - 1, number);
+            return true;
         }
+
+        return false;
     }
 
     /**
      * Adds new elements into the list.
      *
-     * @param listSet Elements to add
+     * @param listSet Elements to be added
      */
-    public void addAll(ListSet listSet) {
-        if (listSet.isNotEmpty()) {
-            if (isEmpty())
-                for (Integer number : listSet) list.add(number);
-            else {
-                int compareResult, i = 0, j = 0;
+    public boolean addAll(ListSet listSet) {
+        boolean changed = false;
 
-                while (i < size() && j < listSet.size()) {
-                    compareResult = list.get(i).compareTo(listSet.get(j));
+        if (isEmpty()) {
+            list.addAll(listSet.list);
+            changed = true;
+        } else {
+            int compareResult, i = 0, j = 0;
 
-                    switch (compareResult) {
-                        case 1:
-                            set(i, listSet.get(j));
-                        case 0:
-                            i++; j++;
-                            break;
-                        case -1:
-                            j++;
-                            break;
-                    }
+            while (i < size() && j < listSet.size()) {
+                compareResult = list.get(i).compareTo(listSet.get(j));
+
+                if (compareResult == 1) {
+                    list.add(i, listSet.get(j));
+                    changed = true;
                 }
+
+                if (compareResult != -1) i++;
+
+                j++;
             }
         }
+
+        return changed;
     }
 
     /**

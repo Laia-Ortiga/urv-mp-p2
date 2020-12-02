@@ -52,7 +52,23 @@ public class ListSetTest {
         listSet2.add(1);
 
         listSet.addAll(listSet2);
-        System.out.println(listSet);
+
+        assertEquals(3, listSet.size());
+        assertEquals(1, listSet.get(0));
+        assertEquals(2, listSet.get(1));
+        assertEquals(3, listSet.get(2));
+    }
+
+    @Test
+    public void addListSetDestinationListIsEmpty() {
+        ListSet listSet = new ListSet();
+        ListSet listSet2 = new ListSet();
+        listSet2.add(2);
+        listSet2.add(1);
+        listSet2.add(3);
+
+        listSet.addAll(listSet2);
+
         assertEquals(3, listSet.size());
         assertEquals(1, listSet.get(0));
         assertEquals(2, listSet.get(1));
