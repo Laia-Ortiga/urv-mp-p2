@@ -1,3 +1,4 @@
+package main;
 
 import java.util.*;
 
@@ -5,14 +6,20 @@ public class ListSet implements Iterable<Integer> {
 
     private final List<Integer> list;
 
-    private final List<Integer> integerList;
-
     public ListSet() {
         list = new ArrayList<>();
     }
 
     public void clear() {
         list.clear();
+    }
+
+    public int size() {
+        return list.size();
+    }
+
+    public boolean isEmpty() {
+        return list.isEmpty();
     }
 
     public boolean remove(Integer x) {
@@ -49,39 +56,39 @@ public class ListSet implements Iterable<Integer> {
 
     @Override
     public Iterator<Integer> iterator() {
-        return integerList.iterator();
+        return list.iterator();
     }
 
     /**
-     * Contains method for an element in an ordered (in ascending order) Integer ListSet.
-     * It returns a boolean indicating whether an element is found or not in a ListSet.
+     * Contains method for an element in an ordered (in ascending order) Integer main.ListSet.
+     * It returns a boolean indicating whether an element is found or not in a main.ListSet.
      * It uses a binary search method to find the search element in the set so as to minimize
      * the computational cost of this method, being logarithmic instead of linear.
-     * Having the ListSet sorted is one prerequisite.
+     * Having the main.ListSet sorted is one prerequisite.
      *
-     * @param integerElement element to be searched in the ListSet
-     * @return boolean indicating whether an element is in the ListSet or not
+     * @param integerElement element to be searched in the main.ListSet
+     * @return boolean indicating whether an element is in the main.ListSet or not
      */
     public boolean contains(Integer integerElement) {
         // We used the already implemented Collections class method binarySearch.
-        return Collections.binarySearch(integerList, integerElement) >= 0;
+        return Collections.binarySearch(list, integerElement) >= 0;
     }
 
     /**
-     * Contains method for a ListSet subset in an ordered (in ascending order) Integer ListSet.
-     * It returns a boolean indicating whether a ListSet is a subset or not of a current ListSet.
-     * It uses the method contains implemented using a binary search, so having the ListSet
+     * Contains method for a main.ListSet subset in an ordered (in ascending order) Integer main.ListSet.
+     * It returns a boolean indicating whether a main.ListSet is a subset or not of a current main.ListSet.
+     * It uses the method contains implemented using a binary search, so having the main.ListSet
      * sorted is one prerequisite.
      *
-     * @param subsetCandidate to be checked whether it is a subset or not of the current ListSet
-     * @return boolean indicating whether a ListSet is a subset or not
+     * @param subsetCandidate to be checked whether it is a subset or not of the current main.ListSet
+     * @return boolean indicating whether a main.ListSet is a subset or not
      */
     public boolean containsAll(ListSet subsetCandidate) {
         boolean result = true;
         int counter = 0;
-        int lengthSubsetCandidate = subsetCandidate.integerList.size();
+        int lengthSubsetCandidate = subsetCandidate.list.size();
         while (result && counter < lengthSubsetCandidate) {
-            if (contains(subsetCandidate.integerList.get(counter))) {
+            if (contains(subsetCandidate.list.get(counter))) {
                 result = false;
             }
             counter++;
@@ -90,14 +97,14 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Contains method for calculating the intersection between an Integer ListSet and
-     * the current ListSet.
-     * It returns a ListSet with the intersection of the two ListSet.
-     * It uses the method contains implemented using a binary search, so having both ListSet
+     * Contains method for calculating the intersection between an Integer main.ListSet and
+     * the current main.ListSet.
+     * It returns a main.ListSet with the intersection of the two main.ListSet.
+     * It uses the method contains implemented using a binary search, so having both main.ListSet
      * sorted are prerequisites.
      *
-     * @param intersectedSet ListSet to be intersected with the current ListSet
-     * @return ListSet with the intersection of the two ListSet
+     * @param intersectedSet main.ListSet to be intersected with the current main.ListSet
+     * @return main.ListSet with the intersection of the two main.ListSet
      */
     public ListSet retainAll(ListSet intersectedSet) {
         ListSet intersectionList = new ListSet();
@@ -109,31 +116,48 @@ public class ListSet implements Iterable<Integer> {
         return intersectionList;
     }
 
-    public boolean add(Integer integerElement) {
-        // TO BE COMPLETED
-        // Returning 'false' here merely as a placeholder. Not an adequate implementation.
+    /**
+     * Adds new element into the list sorting it ascending by value.
+     *
+     * @param number Element to be added
+     */
+    public boolean add(Integer number) {
+        int index = Collections.binarySearch(list, number);
+
+        if (index < 0) {
+            list.add(-index - 1, number);
+            return true;
+        }
+
         return false;
     }
 
+    /**
+     * Adds new elements into the list.
+     *
+     * @param listSet Elements to be added
+     */
     public boolean addAll(ListSet listSet) {
         boolean changed = false;
 
-        // Can use FOR-EACH LOOP or extended loop with ListSet because it implements Iterable
-        for (Integer integerElement: listSet) {
+        if (isEmpty()) {
+            list.addAll(listSet.list);
+            changed = true;
+        } else {
+            int compareResult, i = 0, j = 0;
 
-            // Could do some error checking, for robustness.
-            // We should consider whether we'd like to allow a null element or not, and if we wouldn't, what exception could be appropriate.
-            // Here's an example of what we could do in this regard.
-            if (integerElement == null)
-                throw new NullPointerException();
+            while (i < size() && j < listSet.size()) {
+                compareResult = list.get(i).compareTo(listSet.list.get(j));
 
-            // TO BE COMPLETED
-            // else ...
-            // If any element in the input/other List is not already contained in the current/this List, then add it.
-            // Could use the List methods contains() and add(), if we'd rather focus on code simplicity,
-            // or perhaps write a more efficient implementation.
-            // Update variable 'changed' if the list is changed.
+                if (compareResult == 1) {
+                    list.add(i, listSet.list.get(j));
+                    changed = true;
+                }
 
+                if (compareResult != -1) i++;
+
+                j++;
+            }
         }
 
         return changed;
