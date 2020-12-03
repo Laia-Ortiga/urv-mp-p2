@@ -158,12 +158,16 @@ public class ListSet implements Iterable<Integer> {
             while (i < size() && j < listSet.size()) {
                 compareResult = list.get(i).compareTo(listSet.list.get(j));
 
-                if (compareResult >= 1) {
-                    list.add(i, listSet.list.get(j));
-                    changed = true;
-                }
+                for (int k=i; k<size() && compareResult<0; k++) {
 
-                if (compareResult >= 0) i++;
+                    if (compareResult >= 1) {
+                        list.add(k-1, listSet.list.get(j));
+                        changed = true;
+                    }
+                    if (compareResult >= 0) i++;
+
+                    compareResult = list.get(k).compareTo(listSet.list.get(j));
+                }
 
                 j++;
             }

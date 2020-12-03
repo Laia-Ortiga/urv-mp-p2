@@ -29,18 +29,17 @@ public class ListSetFuzzy {
 
     /**
      * Contains method for an element in an ordered (in ascending order) Integer ListSetFuzzy.
-     * It returns a boolean indicating whether an element is found or not in a ListSetFuzzy.
-     * It uses a binary search method to find the search element in the set so as to minimize
+     * It returns a real number giving the minimum membership of the element in the set if it is in the set, -1 otherwise
+     * It uses a binary search method to find the searched element in the set so as to minimize
      * the computational cost of this method, being logarithmic instead of linear.
      * Having the ListSetFuzzy sorted is one prerequisite.
      *
      * @param fuzzyIntegerElement element to be searched in the ListSetFuzzy
-     * @return real number giving the membership of the element in the set if it is in the set with a greater membership, -1 otherwise
+     * @return real number giving the minimum membership of the element in the set if it is in the set, -1 otherwise
      */
     public double contains(FuzzyInteger fuzzyIntegerElement) {
-        // We used the already implemented Collections class method binarySearch
-        int resultSearch = Collections.binarySearch(list, fuzzyIntegerElement);
-        return resultSearch >= 0 && fuzzyIntegerElement.getMembership() <= list.get(resultSearch).getMembership() ? list.get(resultSearch).getMembership() : -1;
+        int resultSearch = Collections.binarySearch(list, fuzzyIntegerElement); // We use the already implemented Collections class method binarySearch
+        return resultSearch >= 0 && fuzzyIntegerElement.getMembership() <= list.get(resultSearch).getMembership() ? fuzzyIntegerElement.getMembership() : -1; // The minimum will always be the value of the element fuzzyIntegerElement
     }
 
     /**
@@ -59,17 +58,20 @@ public class ListSetFuzzy {
         ArrayList<Double> result = new List(lengthFuzzySubsetCandidate);
         boolean isSubset = true;
         int counter = 0;
-        while (isSubset && counter < lengthFuzzySubsetCandidate) {
-            if (contains(fuzzySubsetCandidate.list.get(counter)) == -1) {
+        while (isSubset && counter < lengthFuzzySubsetCandidate) {      // Search for some element in the subset candidate that is not in the original set
+            if (contains(fuzzySubsetCandidate.list.get(counter)) == -1) {   // If a single element is not contained, then it is not a subset
                 isSubset = false;
             }
             else {
-                result.set(counter, fuzzySubsetCandidate.list.get(counter).getMembership());
+                result.set(counter, fuzzySubsetCandidate.list.get(counter).getMembership());    // If not proved the opposite, set the minimum membership of all the elements
+                                                                                                // in the candidate, which will always be the membership in the candidate
             }
             counter++;
         }
-        if (isSubset == false) {
-            for (int i = 0; i < result.size(); i++) result.get(i) = -1;
+        if (isSubset == false) {   // If it is not a subset, we fill in the result list with -1 values
+            for (int i = 0; i < result.size(); i++) {
+                result.set(i, -1.0);
+            }
         }
         return result;
     }
@@ -77,38 +79,35 @@ public class ListSetFuzzy {
     /**
      * RetainAll method for calculating the intersection between an Integer ListSetFuzzy and
      * the current ListSetFuzzy.
-     * It returns a boolean to indicate whether the set has changed as a result of the call.
+     * It returns a real number contaning the minimum value of the pertinences in the intersection set
      * It uses the method contains implemented using a binary search, so having both ListSetFuzzy
      * sorted are prerequisites.
      *
      * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
-     * @return boolean to indicate whether the set has changed as a result of the call, that is, whether any of the elements adjoined
-     * in the new set were not already present in the original set
+     * @return real number contaning the minimum value of the pertinences in the intersection set
      */
-    public ArrayList<Double> retainAll(ListSetFuzzy intersectedSet) {
-        boolean changed = false;
-
+    public double retainAll(ListSetFuzzy intersectedSet) {
         int i = 0;
-        while (i < list.size()) {
+        double minimumMembership = 1.0;
+        while (i < list.size()) {                                           // Traverse the original set.
             FuzzyInteger element = list.get(i);
-            int resultSearch = Collections.binarySearch(list, element);
-            if (resultSearch >= 0) {
-                Double(element.getMembership()).compareTo(list.get(resultSearch).getMembership());
-                int comparisonResult = Double(element.getMembership()).compareTo(list.get(resultSearch).getMembership());
-                changed = true;
-                if (comparisonResult != 0) {
-                    double elementMembership = min(element.getMembership(),list.get(resultSearch).getMembership());
-                    list.get(resultSearch).setMembership(elementMembership);
+            int resultSearch = Collections.binarySearch(intersectedSet, element);       // Check whether the elements of the original set are also members of the intersected set
+            // Equivalent to calculating A\(A\B) and leaving the result in list
+            if (resultSearch >= 0) {                                                    // If found in intersected set (common values)
+                int comparisonResult = element.getMembership().compareTo(intersectedSet.list.get(resultSearch).getMembership());    // Compare memberships of commons values
+                double elementMembership = min(element.getMembership(), intersectedSet.list.get(resultSearch).getMembership());
+                if (comparisonResult != 0) {                               // Setting a membership is only required when values of pertinences are distinct
+                    FuzzyInteger elementToBeSet = FuzzyInteger(element.getValue(), intersectedSet.list.get(resultSearch).getMembership());
+                    list.set(resultSearch, elementToBeSet);
                 }
-                else {
-                    remove(element);
-                }
-            }
-            else {
+                minimumMembership = min(minimumMembership, elementMemberShip);
                 i++;
             }
+            else {                                                                     // If not found in intersected set (not common values)
+                remove(element);
+            }
         }
-        return changed;
+        return minimumMembership;
     }
 
     private double remove(int index, double membership) {
