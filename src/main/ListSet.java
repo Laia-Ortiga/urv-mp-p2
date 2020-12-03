@@ -70,8 +70,7 @@ public class ListSet implements Iterable<Integer> {
      * @return boolean indicating whether an element is in the ListSet or not
      */
     public boolean contains(Integer integerElement) {
-        // We used the already implemented Collections class method binarySearch.
-        return Collections.binarySearch(list, integerElement) >= 0;
+        return Collections.binarySearch(list, integerElement) >= 0;  // We use the already implemented Collections class method binarySearch.
     }
 
     /**
@@ -87,8 +86,8 @@ public class ListSet implements Iterable<Integer> {
         boolean result = true;
         int counter = 0;
         int lengthSubsetCandidate = subsetCandidate.list.size();
-        while (result && counter < lengthSubsetCandidate) {
-            if (contains(subsetCandidate.list.get(counter))) {
+        while (result && counter < lengthSubsetCandidate) {  // Search for some element in the subset candidate that is not in the original set
+            if (contains(subsetCandidate.list.get(counter))) {  // If a single element is not contained, then it is not a subset
                 result = false;
             }
             counter++;
@@ -108,18 +107,18 @@ public class ListSet implements Iterable<Integer> {
      * in the new set were not already present in the original set
      */
     public boolean retainAll(ListSet intersectedSet) {
+        // Equivalent to calculating A\(A\B) and leaving the result in list
         boolean changed = false;
-
         int i = 0;
-        while (i < list.size()) {                             // Equivalent to calculating A\(A\B) and leaving the result in list
+        while (i < list.size()) {                             // Traverse the original set.
             Integer value = list.get(i);
-            if (!intersectedSet.contains(value)) {
-                remove(value);
+            // Check whether the elements of the original set are also members of the intersected set
+            if (!intersectedSet.contains(value)) { // If not found in intersected set (not common values)
+                remove(value);  // We remove the element of the list and automatically step forward
                 changed = true;
-
             }
-            else {
-                i++;
+            else {   // If found in intersected set (common values)
+                i++;  // We leave the element in the list and step forward
             }
         }
         return changed;
@@ -149,32 +148,40 @@ public class ListSet implements Iterable<Integer> {
     public boolean addAll(ListSet listSet) {
         boolean changed = false;
 
-        if (isEmpty()) {
-            list.addAll(listSet.list);
-            changed = true;
-        } else {
-            int compareResult, i = 0, j = 0;
+        // Can use FOR-EACH LOOP or extended loop with ListSet because it implements Iterable
+        for (Integer integerElement: listSet) {
+            if (isEmpty()) {
+                list.addAll(listSet.list);
+                changed = true;
+            } else {
+                int compareResult, i = 0, j = 0;
 
-            while (i < size() && j < listSet.size()) {
-                compareResult = list.get(i).compareTo(listSet.list.get(j));
+                // Could do some error checking, for robustness.
+                // We should consider whether we'd like to allow a null element or not, and if we wouldn't, what exception could be appropriate.
+                // Here's an example of what we could do in this regard.
+                if (integerElement == null)
+                    throw new NullPointerException();
+                while (i < size() && j < listSet.size()) {
+                    compareResult = list.get(i).compareTo(listSet.get(j));
+                    compareResult = list.get(i).compareTo(listSet.list.get(j));
 
-                for (int k=i; k<size() && compareResult<0; k++) {
-
-                    if (compareResult >= 1) {
-                        list.add(k-1, listSet.list.get(j));
+                    // TO BE COMPLETED
+                    // else ...
+                    // If any element in the input/other List is not already contained in the current/this List, then add it.
+                    // Could use the List methods contains() and add(), if we'd rather focus on code simplicity,
+                    // or perhaps write a more efficient implementation.
+                    // Update variable 'changed' if the list is changed.
+                    if (compareResult == 1) {
+                        list.add(i, listSet.get(j));
+                        list.add(i, listSet.list.get(j));
                         changed = true;
                     }
-                    if (compareResult >= 0) i++;
-
-                    compareResult = list.get(k).compareTo(listSet.list.get(j));
+                    if (compareResult != -1) i++;
+                    j++;
                 }
-
-                j++;
             }
-        }
-
-        return changed;
-    }
+            return changed;
+            }
 
     @Override
     public String toString() {
