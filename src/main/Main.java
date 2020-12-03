@@ -75,6 +75,8 @@ public class Main {
         System.out.println("a + b és "+a);
 
 
+
+
 //        ArrayList<Integer> a = new ArrayList<>();
 //        a.add(3);
 //        a.add(5);

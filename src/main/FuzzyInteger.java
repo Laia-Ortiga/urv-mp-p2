@@ -3,7 +3,7 @@ package main;
 public class FuzzyInteger implements Comparable<FuzzyInteger> {
 
     private final int value;
-    private final double membership;
+    private double membership;
 
     public FuzzyInteger(int value, double membership) {
         this.value = value;
@@ -17,6 +17,8 @@ public class FuzzyInteger implements Comparable<FuzzyInteger> {
     public double getMembership() {
         return membership;
     }
+
+    public void setMembership(double newMembership) { this.membership = newMembership; }
 
     @Override
     public int compareTo(FuzzyInteger o) {

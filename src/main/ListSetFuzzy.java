@@ -3,7 +3,9 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.lang.*;
+import java.lang.Math.*;
+
+import static java.lang.Double.min;
 
 public class ListSetFuzzy {
 
@@ -25,7 +27,6 @@ public class ListSetFuzzy {
         return list.isEmpty();
     }
 
-<<<<<<< HEAD
     /**
      * Contains method for an element in an ordered (in ascending order) Integer ListSetFuzzy.
      * It returns a boolean indicating whether an element is found or not in a ListSetFuzzy.
@@ -92,7 +93,8 @@ public class ListSetFuzzy {
             FuzzyInteger element = list.get(i);
             int resultSearch = Collections.binarySearch(list, element);
             if (resultSearch >= 0) {
-                int comparisonResult = element.getMembership().compareTo(list.get(resultSearch).getMembership());
+                Double(element.getMembership()).compareTo(list.get(resultSearch).getMembership());
+                int comparisonResult = Double(element.getMembership()).compareTo(list.get(resultSearch).getMembership());
                 changed = true;
                 if (comparisonResult != 0) {
                     double elementMembership = min(element.getMembership(),list.get(resultSearch).getMembership());
@@ -108,7 +110,7 @@ public class ListSetFuzzy {
         }
         return changed;
     }
-=======
+
     private double remove(int index, double membership) {
         if (1 - membership < list.get(index).getMembership()) {
             if (membership == 1.0) {
@@ -155,6 +157,4 @@ public class ListSetFuzzy {
         }
         return 1.0 - result;
     }
-
->>>>>>> 7a081b955c52a1364d2872a959c05cfae456c6bf
 }
