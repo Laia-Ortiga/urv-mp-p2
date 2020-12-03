@@ -1,4 +1,4 @@
-package test;
+/* package test;
 
 import main.ListSet;
 import org.junit.jupiter.api.Test;
@@ -74,4 +74,4 @@ public class ListSetTest {
         assertEquals(2, listSet.get(1));
         assertEquals(3, listSet.get(2));
     }
-}
+} */

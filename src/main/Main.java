@@ -1,32 +1,78 @@
 package main;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<Integer> a = new ArrayList<>();
+        ListSet a = new ListSet();
         a.add(3);
         a.add(5);
         a.add(6);
-        System.out.println("The set a contains 6" + a.contains(6));
-        System.out.println("The set a contains 9 before insertion" + a.contains(9));
+        System.out.println("The set a contains 6: " + a.contains(6));
+        System.out.println("The set a contains 9 before insertion: " + a.contains(9));
         a.add(9);
-        System.out.println("The set a contains 9 after insertion" + a.contains(9));
+        System.out.println("The set a contains 9 after insertion: " + a.contains(9));
         a.add(10);
         a.add(30);
-        ArrayList<Integer> b = new ArrayList<>();
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
+        ListSet b = new ListSet();
+
+        a.add(3);
+        a.add(5);
+        a.add(6);
+
         b.add(5);
+
         System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
+
+        System.out.println("Calculating the intersection of a " + a + " and b " + b+ " returns the boolean: ");
+        System.out.println(a.retainAll(b));
+        System.out.println("\nAfter the operation the set a is "+ a + "\n");
+
+        a.add(3);
+        a.add(5);
+        a.add(6);
+
+        System.out.println("Calculating the intersection of a " + a + " and b " + b+ " returns the boolean: ");
+        System.out.println(a.retainAll(b));
+        System.out.println("\nAfter the operation the set a is "+ a + "\n");
+
         b.add(6);
         System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
+
+        a.add(3);
+        a.add(5);
+        a.add(6);
+
+        System.out.println("Calculating the intersection of a " + a + " and b " + b+ " returns the boolean: ");
+        System.out.println(a.retainAll(b));
+        System.out.println("\nAfter the operation the set a is "+ a + "\n");
+
         b.add(7);
         b.add(33);
         System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
-        System.out.println("The intersection of a and b is" + a.retainAll(b) + "\n");
+
+        a.add(3);
+        a.add(5);
+        a.add(6);
+
+        System.out.println("Calculating the intersection of a " + a + " and b " + b+ " returns the boolean: ");
+        System.out.println(a.retainAll(b));
+        System.out.println("\nAfter the operation the set a is "+ a + "\n");
+
+        a.removeAll(a);
+        b.removeAll(b);
+        System.out.println("a i b són: "+ a + " " + b);
+        a.add(0);
+        a.add(1);
+        a.add(2);
+        a.add(4);
+        b.add(3);
+        b.add(4);
+        System.out.println("a i b són: "+ a + " " + b);
+        a.addAll(b);
+        System.out.println("a + b és "+a);
 
 
 //        ArrayList<Integer> a = new ArrayList<>();

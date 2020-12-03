@@ -60,14 +60,14 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Contains method for an element in an ordered (in ascending order) Integer main.ListSet.
-     * It returns a boolean indicating whether an element is found or not in a main.ListSet.
+     * Contains method for an element in an ordered (in ascending order) Integer ListSet.
+     * It returns a boolean indicating whether an element is found or not in a ListSet.
      * It uses a binary search method to find the search element in the set so as to minimize
      * the computational cost of this method, being logarithmic instead of linear.
-     * Having the main.ListSet sorted is one prerequisite.
+     * Having the ListSet sorted is one prerequisite.
      *
-     * @param integerElement element to be searched in the main.ListSet
-     * @return boolean indicating whether an element is in the main.ListSet or not
+     * @param integerElement element to be searched in the ListSet
+     * @return boolean indicating whether an element is in the ListSet or not
      */
     public boolean contains(Integer integerElement) {
         // We used the already implemented Collections class method binarySearch.
@@ -75,13 +75,13 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Contains method for a main.ListSet subset in an ordered (in ascending order) Integer main.ListSet.
-     * It returns a boolean indicating whether a main.ListSet is a subset or not of a current main.ListSet.
-     * It uses the method contains implemented using a binary search, so having the main.ListSet
+     * Contains method for a ListSet subset in an ordered (in ascending order) Integer ListSet.
+     * It returns a boolean indicating whether a ListSet is a subset or not of a current ListSet.
+     * It uses the method contains implemented using a binary search, so having the ListSet
      * sorted is one prerequisite.
      *
-     * @param subsetCandidate to be checked whether it is a subset or not of the current main.ListSet
-     * @return boolean indicating whether a main.ListSet is a subset or not
+     * @param subsetCandidate to be checked whether it is a subset or not of the current ListSet
+     * @return boolean indicating whether a ListSet is a subset or not
      */
     public boolean containsAll(ListSet subsetCandidate) {
         boolean result = true;
@@ -97,23 +97,32 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Contains method for calculating the intersection between an Integer main.ListSet and
-     * the current main.ListSet.
-     * It returns a main.ListSet with the intersection of the two main.ListSet.
-     * It uses the method contains implemented using a binary search, so having both main.ListSet
+     * RetainAll method for calculating the intersection between an Integer ListSet and
+     * the current ListSet.
+     * It returns a boolean to indicate whether the set has changed as a result of the call.
+     * It uses the method contains implemented using a binary search, so having both ListSet
      * sorted are prerequisites.
      *
-     * @param intersectedSet main.ListSet to be intersected with the current main.ListSet
-     * @return main.ListSet with the intersection of the two main.ListSet
+     * @param intersectedSet ListSet to be intersected with the current ListSet
+     * @return boolean to indicate whether the set has changed as a result of the call, that is, whether any of the elements adjoined
+     * in the new set were not already present in the original set
      */
-    public ListSet retainAll(ListSet intersectedSet) {
-        ListSet intersectionList = new ListSet();
-        for (Integer element : intersectedSet) {
-            if (this.contains(element)) {
-                intersectionList.add(element);
+    public boolean retainAll(ListSet intersectedSet) {
+        boolean changed = false;
+
+        int i = 0;
+        while (i < list.size()) {                             // Equivalent to calculating A\(A\B) and leaving the result in list
+            Integer value = list.get(i);
+            if (!intersectedSet.contains(value)) {
+                remove(value);
+                changed = true;
+
+            }
+            else {
+                i++;
             }
         }
-        return intersectionList;
+        return changed;
     }
 
     /**
@@ -149,12 +158,12 @@ public class ListSet implements Iterable<Integer> {
             while (i < size() && j < listSet.size()) {
                 compareResult = list.get(i).compareTo(listSet.list.get(j));
 
-                if (compareResult == 1) {
+                if (compareResult >= 1) {
                     list.add(i, listSet.list.get(j));
                     changed = true;
                 }
 
-                if (compareResult != -1) i++;
+                if (compareResult >= 0) i++;
 
                 j++;
             }
