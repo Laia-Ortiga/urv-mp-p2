@@ -159,9 +159,9 @@ public class ListSet implements Iterable<Integer> {
                     changed = true;
                 }
 
-                if (compareResult != -1) i++;
+                if (compareResult != -1) j++;
 
-                j++;
+                i++;
             }
         }
 
