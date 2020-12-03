@@ -125,7 +125,7 @@ public class ListSet implements Iterable<Integer> {
      * @param number Element to be added
      */
     public boolean add(Integer number) {
-        if (number != null) return false;
+        if (number == null) return false;
 
         int index = Collections.binarySearch(list, number);
 
