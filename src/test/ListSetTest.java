@@ -1,7 +1,9 @@
-/* package test;
+package test;
 
 import main.ListSet;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,10 +38,11 @@ public class ListSetTest {
         listSet.add(3);
         listSet.add(2);
 
+        List<Integer> list = listSet.toList();
         assertEquals(3, listSet.size());
-        assertEquals(1, listSet.get(0));
-        assertEquals(2, listSet.get(1));
-        assertEquals(3, listSet.get(2));
+        assertEquals(1, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(3, list.get(2));
     }
 
     @Test
@@ -53,10 +56,11 @@ public class ListSetTest {
 
         listSet.addAll(listSet2);
 
+        List<Integer> list = listSet.toList();
         assertEquals(3, listSet.size());
-        assertEquals(1, listSet.get(0));
-        assertEquals(2, listSet.get(1));
-        assertEquals(3, listSet.get(2));
+        assertEquals(1, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(3, list.get(2));
     }
 
     @Test
@@ -69,9 +73,10 @@ public class ListSetTest {
 
         listSet.addAll(listSet2);
 
+        List<Integer> list = listSet.toList();
         assertEquals(3, listSet.size());
-        assertEquals(1, listSet.get(0));
-        assertEquals(2, listSet.get(1));
-        assertEquals(3, listSet.get(2));
+        assertEquals(1, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(3, list.get(2));
     }
-} */
+}

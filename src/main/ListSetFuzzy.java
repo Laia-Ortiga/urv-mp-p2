@@ -2,12 +2,13 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.lang.Math.*;
 
 import static java.lang.Double.min;
 
-public class ListSetFuzzy {
+public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
 
     private final List<FuzzyInteger> list;
 
@@ -155,5 +156,75 @@ public class ListSetFuzzy {
             }
         }
         return 1.0 - result;
+    }
+
+    /**
+     * Adds new element into the list sorting it ascending by value.
+     *
+     * @param number Element to be added
+     */
+    public boolean add(FuzzyInteger number) {
+        int index = Collections.binarySearch(list, number);
+
+        if (index < 0) {
+            list.add(-index - 1, number);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Adds new elements into the list.
+     *
+     * @param listSet Elements to be added
+     */
+    public boolean addAll(ListSetFuzzy listSet) {
+        boolean changed = false;
+
+        if (isEmpty()) {
+            list.addAll(listSet.list);
+            changed = true;
+        } else {
+            int compareResult, i = 0, j = 0;
+
+            while (i < size() && j < listSet.size()) {
+                compareResult = list.get(i).compareTo(listSet.list.get(j));
+
+                if (compareResult == 1) {
+                    list.add(i, listSet.list.get(j));
+                    changed = true;
+                }
+
+                if (compareResult != -1) i++;
+
+                j++;
+            }
+        }
+
+        return changed;
+    }
+
+    @Override
+    public Iterator<FuzzyInteger> iterator() {
+        return list.iterator();
+    }
+
+    public List<FuzzyInteger> toList() {
+        return List.copyOf(this.list);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        for (var x : list) {
+            if (x != list.get(0)) {
+                sb.append(", ");
+            }
+            sb.append(x);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

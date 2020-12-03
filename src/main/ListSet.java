@@ -54,11 +54,6 @@ public class ListSet implements Iterable<Integer> {
         return prevSize != size();
     }
 
-    @Override
-    public Iterator<Integer> iterator() {
-        return list.iterator();
-    }
-
     /**
      * Contains method for an element in an ordered (in ascending order) Integer ListSet.
      * It returns a boolean indicating whether an element is found or not in a ListSet.
@@ -130,6 +125,8 @@ public class ListSet implements Iterable<Integer> {
      * @param number Element to be added
      */
     public boolean add(Integer number) {
+        if (number != null) return false;
+
         int index = Collections.binarySearch(list, number);
 
         if (index < 0) {
@@ -148,40 +145,33 @@ public class ListSet implements Iterable<Integer> {
     public boolean addAll(ListSet listSet) {
         boolean changed = false;
 
-        // Can use FOR-EACH LOOP or extended loop with ListSet because it implements Iterable
-        for (Integer integerElement: listSet) {
-            if (isEmpty()) {
-                list.addAll(listSet.list);
-                changed = true;
-            } else {
-                int compareResult, i = 0, j = 0;
+        if (isEmpty()) {
+            list.addAll(listSet.list);
+            changed = true;
+        } else {
+            int compareResult, i = 0, j = 0;
 
-                // Could do some error checking, for robustness.
-                // We should consider whether we'd like to allow a null element or not, and if we wouldn't, what exception could be appropriate.
-                // Here's an example of what we could do in this regard.
-                if (integerElement == null)
-                    throw new NullPointerException();
-                while (i < size() && j < listSet.size()) {
-                    compareResult = list.get(i).compareTo(listSet.get(j));
-                    compareResult = list.get(i).compareTo(listSet.list.get(j));
+            while (i < size() && j < listSet.size()) {
+                compareResult = list.get(i).compareTo(listSet.list.get(j));
 
-                    // TO BE COMPLETED
-                    // else ...
-                    // If any element in the input/other List is not already contained in the current/this List, then add it.
-                    // Could use the List methods contains() and add(), if we'd rather focus on code simplicity,
-                    // or perhaps write a more efficient implementation.
-                    // Update variable 'changed' if the list is changed.
-                    if (compareResult == 1) {
-                        list.add(i, listSet.get(j));
-                        list.add(i, listSet.list.get(j));
-                        changed = true;
-                    }
-                    if (compareResult != -1) i++;
-                    j++;
+                if (compareResult == 1) {
+                    list.add(i, listSet.list.get(j));
+                    changed = true;
                 }
+
+                if (compareResult != -1) i++;
+
+                j++;
             }
-            return changed;
-            }
+        }
+
+        return changed;
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return list.iterator();
+    }
 
     @Override
     public String toString() {
@@ -195,5 +185,9 @@ public class ListSet implements Iterable<Integer> {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    public List<Integer> toList() {
+        return List.copyOf(this.list);
     }
 }
