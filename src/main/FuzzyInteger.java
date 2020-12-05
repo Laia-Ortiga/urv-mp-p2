@@ -22,4 +22,8 @@ public class FuzzyInteger implements Comparable<FuzzyInteger> {
     public int compareTo(FuzzyInteger o) {
         return Integer.compare(value, o.value);
     }
+
+    public String toString() {
+        return "{" + value + ", " + membership + "}";
+    }
 }

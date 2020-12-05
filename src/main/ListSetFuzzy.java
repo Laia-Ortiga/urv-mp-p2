@@ -43,73 +43,73 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
         return resultSearch >= 0 && fuzzyIntegerElement.getMembership() <= list.get(resultSearch).getMembership() ? fuzzyIntegerElement.getMembership() : -1; // The minimum will always be the value of the element fuzzyIntegerElement
     }
 
-    /**
-     * Contains method for a ListSetFuzzy subset in an ordered (in ascending order) Integer ListSetFuzzy.
-     * It returns a list of the length of the fuzzy subset containing all the memberships in the original set in case
-     * that they are a subset or full of -1 otherwise.
-     * It uses the method contains implemented using a binary search, so having the ListSetFuzzyFuzzy
-     * sorted is one prerequisite.
-     *
-     * @param fuzzySubsetCandidate to be checked whether it is a subset or not of the current ListSetFuzzy
-     * @return ArrayList<Double> of the length of the fuzzy subset containing all the memberships in the original set in case
-     * that they are a subset or full of -1 otherwise.
-     */
-    public ArrayList<Double> containsAll(ListSetFuzzy fuzzySubsetCandidate) {
-        int lengthFuzzySubsetCandidate = fuzzySubsetCandidate.list.size();
-        ArrayList<Double> result = new List(lengthFuzzySubsetCandidate);
-        boolean isSubset = true;
-        int counter = 0;
-        while (isSubset && counter < lengthFuzzySubsetCandidate) {      // Search for some element in the subset candidate that is not in the original set
-            if (contains(fuzzySubsetCandidate.list.get(counter)) == -1) {   // If a single element is not contained, then it is not a subset
-                isSubset = false;
-            }
-            else {
-                result.set(counter, fuzzySubsetCandidate.list.get(counter).getMembership());    // If not proved the opposite, set the minimum membership of all the elements
-                // in the candidate, which will always be the membership in the candidate
-            }
-            counter++;
-        }
-        if (isSubset == false) {   // If it is not a subset, we fill in the result list with -1 values
-            for (int i = 0; i < result.size(); i++) {
-                result.set(i, -1.0);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * RetainAll method for calculating the intersection between an Integer ListSetFuzzy and
-     * the current ListSetFuzzy.
-     * It returns a real number contaning the minimum value of the pertinences in the intersection set
-     * It uses the method contains implemented using a binary search, so having both ListSetFuzzy
-     * sorted are prerequisites.
-     *
-     * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
-     * @return real number contaning the minimum value of the pertinences in the intersection set
-     */
-    public double retainAll(ListSetFuzzy intersectedSet) {
-        int i = 0;
-        double minimumMembership = 1.0;
-        while (i < list.size()) {                                           // Traverse the original set.
-            FuzzyInteger element = list.get(i);
-            int resultSearch = Collections.binarySearch(intersectedSet, element);       // Check whether the elements of the original set are also members of the intersected set
-            // Equivalent to calculating A\(A\B) and leaving the result in list
-            if (resultSearch >= 0) {                                                    // If found in intersected set (common values)
-                int comparisonResult = element.getMembership().compareTo(intersectedSet.list.get(resultSearch).getMembership());    // Compare memberships of commons values
-                double elementMembership = min(element.getMembership(), intersectedSet.list.get(resultSearch).getMembership());
-                if (comparisonResult != 0) {                               // Setting a membership is only required when values of pertinences are distinct
-                    FuzzyInteger elementToBeSet = FuzzyInteger(element.getValue(), intersectedSet.list.get(resultSearch).getMembership());
-                    list.set(resultSearch, elementToBeSet);
-                }
-                minimumMembership = min(minimumMembership, elementMemberShip);
-                i++;
-            }
-            else {                                                                     // If not found in intersected set (not common values)
-                remove(element);
-            }
-        }
-        return minimumMembership;
-    }
+//    /**
+//     * Contains method for a ListSetFuzzy subset in an ordered (in ascending order) Integer ListSetFuzzy.
+//     * It returns a list of the length of the fuzzy subset containing all the memberships in the original set in case
+//     * that they are a subset or full of -1 otherwise.
+//     * It uses the method contains implemented using a binary search, so having the ListSetFuzzyFuzzy
+//     * sorted is one prerequisite.
+//     *
+//     * @param fuzzySubsetCandidate to be checked whether it is a subset or not of the current ListSetFuzzy
+//     * @return ArrayList<Double> of the length of the fuzzy subset containing all the memberships in the original set in case
+//     * that they are a subset or full of -1 otherwise.
+//     */
+//    public ArrayList<Double> containsAll(ListSetFuzzy fuzzySubsetCandidate) {
+//        int lengthFuzzySubsetCandidate = fuzzySubsetCandidate.list.size();
+//        ArrayList<Double> result = new List(lengthFuzzySubsetCandidate);
+//        boolean isSubset = true;
+//        int counter = 0;
+//        while (isSubset && counter < lengthFuzzySubsetCandidate) {      // Search for some element in the subset candidate that is not in the original set
+//            if (contains(fuzzySubsetCandidate.list.get(counter)) == -1) {   // If a single element is not contained, then it is not a subset
+//                isSubset = false;
+//            }
+//            else {
+//                result.set(counter, fuzzySubsetCandidate.list.get(counter).getMembership());    // If not proved the opposite, set the minimum membership of all the elements
+//                // in the candidate, which will always be the membership in the candidate
+//            }
+//            counter++;
+//        }
+//        if (isSubset == false) {   // If it is not a subset, we fill in the result list with -1 values
+//            for (int i = 0; i < result.size(); i++) {
+//                result.set(i, -1.0);
+//            }
+//        }
+//        return result;
+//    }
+//
+//    /**
+//     * RetainAll method for calculating the intersection between an Integer ListSetFuzzy and
+//     * the current ListSetFuzzy.
+//     * It returns a real number contaning the minimum value of the pertinences in the intersection set
+//     * It uses the method contains implemented using a binary search, so having both ListSetFuzzy
+//     * sorted are prerequisites.
+//     *
+//     * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
+//     * @return real number contaning the minimum value of the pertinences in the intersection set
+//     */
+//    public double retainAll(ListSetFuzzy intersectedSet) {
+//        int i = 0;
+//        double minimumMembership = 1.0;
+//        while (i < list.size()) {                                           // Traverse the original set.
+//            FuzzyInteger element = list.get(i);
+//            int resultSearch = Collections.binarySearch(intersectedSet, element);       // Check whether the elements of the original set are also members of the intersected set
+//            // Equivalent to calculating A\(A\B) and leaving the result in list
+//            if (resultSearch >= 0) {                                                    // If found in intersected set (common values)
+//                int comparisonResult = element.getMembership().compareTo(intersectedSet.list.get(resultSearch).getMembership());    // Compare memberships of commons values
+//                double elementMembership = min(element.getMembership(), intersectedSet.list.get(resultSearch).getMembership());
+//                if (comparisonResult != 0) {                               // Setting a membership is only required when values of pertinences are distinct
+//                    FuzzyInteger elementToBeSet = FuzzyInteger(element.getValue(), intersectedSet.list.get(resultSearch).getMembership());
+//                    list.set(resultSearch, elementToBeSet);
+//                }
+//                minimumMembership = min(minimumMembership, elementMemberShip);
+//                i++;
+//            }
+//            else {                                                                     // If not found in intersected set (not common values)
+//                remove(element);
+//            }
+//        }
+//        return minimumMembership;
+//    }
 
     private double remove(int index, double membership) {
         if (1 - membership < list.get(index).getMembership()) {
@@ -164,10 +164,17 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @param number Element to be added
      */
     public boolean add(FuzzyInteger number) {
+        if (number == null) return false;
+
         int index = Collections.binarySearch(list, number);
 
+        // Given element gonna be added on their own position in the ListSet.
         if (index < 0) {
             list.add(-index - 1, number);
+            return true;
+            // Adds given element if has lower membership
+        } else if (list.get(index).getMembership() > number.getMembership()) {
+            list.set(index, number);
             return true;
         }
 
@@ -182,25 +189,34 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
     public boolean addAll(ListSetFuzzy listSet) {
         boolean changed = false;
 
-        if (isEmpty()) {
-            list.addAll(listSet.list);
-            changed = true;
-        } else {
-            int compareResult, i = 0, j = 0;
 
-            while (i < size() && j < listSet.size()) {
-                compareResult = list.get(i).compareTo(listSet.list.get(j));
+        int compareResult, i = 0, j = 0;
 
-                if (compareResult == 1) {
-                    list.add(i, listSet.list.get(j));
+        while (i < size() && j < listSet.size()) {
+            compareResult = list.get(i).compareTo(listSet.list.get(j));
+
+            // Own element is lower than given element. Search for next given element.
+            if (compareResult == -1) {
+                i++;
+                // Both elements are the same. Search for next elements on both ListSets.
+            } else if (compareResult == 0) {
+                // Adds given element if has lower membership
+                if (list.get(i).getMembership() > listSet.list.get(j).getMembership()) {
+                    list.set(i, listSet.list.get(j));
                     changed = true;
                 }
-
-                if (compareResult != -1) i++;
-
+                j++;
+                i++;
+                // Given element is greater than own element. Add it and search for next given element.
+            } else if (compareResult == 1) {
+                list.add(i, listSet.list.get(j));
+                changed = true;
                 j++;
             }
         }
+
+        // Add the rest of unchecked given elements.
+        changed |= list.addAll(listSet.list.subList(j, listSet.list.size()));
 
         return changed;
     }
