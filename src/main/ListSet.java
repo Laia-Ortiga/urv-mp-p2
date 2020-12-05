@@ -145,25 +145,25 @@ public class ListSet implements Iterable<Integer> {
     public boolean addAll(ListSet listSet) {
         boolean changed = false;
 
-        if (isEmpty()) {
-            list.addAll(listSet.list);
-            changed = true;
-        } else {
-            int compareResult, i = 0, j = 0;
 
-            while (i < size() && j < listSet.size()) {
-                compareResult = list.get(i).compareTo(listSet.list.get(j));
+        int compareResult, i = 0, j = 0;
 
-                if (compareResult == 1) {
-                    list.add(i, listSet.list.get(j));
-                    changed = true;
-                }
+        while (i < size() && j < listSet.size()) {
+            compareResult = list.get(i).compareTo(listSet.list.get(j));
 
-                if (compareResult != -1) j++;
-
+            if (compareResult == -1) {
                 i++;
+            } else if (compareResult == 0) {
+                j++;
+                i++;
+            } else if (compareResult == 1) {
+                list.add(i, listSet.list.get(j));
+                changed = true;
+                j++;
             }
         }
+
+        changed |= list.addAll(listSet.list.subList(j, listSet.list.size()));
 
         return changed;
     }

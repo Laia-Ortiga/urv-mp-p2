@@ -65,7 +65,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
             }
             else {
                 result.set(counter, fuzzySubsetCandidate.list.get(counter).getMembership());    // If not proved the opposite, set the minimum membership of all the elements
-                                                                                                // in the candidate, which will always be the membership in the candidate
+                // in the candidate, which will always be the membership in the candidate
             }
             counter++;
         }

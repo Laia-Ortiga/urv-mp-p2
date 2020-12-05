@@ -25,12 +25,24 @@ public class ListSetFuzzyTest {
         ListSetFuzzy listSet = new ListSetFuzzy();
         listSet.add(new FuzzyInteger(1, 0.25));
 
-        listSet.add(new FuzzyInteger(1, 0.25));
+        listSet.add(new FuzzyInteger(1, 0.35));
 
         assertEquals(1, listSet.size());
         for (FuzzyInteger i : listSet) assertEquals(1, i.getValue());
         for (FuzzyInteger i : listSet) assertEquals(0.25, i.getMembership());
     }
+
+//    @Test
+//    public void addElementPresentOnListSetFuzzyWithLowerMembership() {
+//        ListSetFuzzy listSet = new ListSetFuzzy();
+//        listSet.add(new FuzzyInteger(1, 0.25));
+//
+//        listSet.add(new FuzzyInteger(1, 0.10));
+//
+//        assertEquals(1, listSet.size());
+//        for (FuzzyInteger i : listSet) assertEquals(1, i.getValue());
+//        for (FuzzyInteger i : listSet) assertEquals(0.10, i.getMembership());
+//    }
 
     @Test
     public void addListSetFuzzyIsSortered() {

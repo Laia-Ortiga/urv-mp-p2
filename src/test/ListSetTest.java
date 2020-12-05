@@ -86,6 +86,26 @@ public class ListSetTest {
     }
 
     @Test
+    public void addListSet3() {
+        ListSet listSet = new ListSet();
+        listSet.add(1);
+        listSet.add(2);
+        listSet.add(3);
+        ListSet listSet2 = new ListSet();
+        listSet2.add(2);
+        listSet2.add(4);
+
+        listSet.addAll(listSet2);
+
+        List<Integer> list = listSet.toList();
+        assertEquals(4, listSet.size());
+        assertEquals(1, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(3, list.get(2));
+        assertEquals(4, list.get(3));
+    }
+
+    @Test
     public void addListSetDestinationListIsEmpty() {
         ListSet listSet = new ListSet();
         ListSet listSet2 = new ListSet();
