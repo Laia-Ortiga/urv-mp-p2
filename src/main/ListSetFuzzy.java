@@ -136,11 +136,12 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
         if (newMembership == 0.0) {
             // Remove entirely from the list if the membership would be 0.0
             list.remove(index);
+            return 0.0;
         }
         else {
             list.set(index, new FuzzyInteger(list.get(index).getValue(), newMembership));
+            return newMembership;
         }
-        return oldMembership;
     }
 
     /**
@@ -167,7 +168,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @return the minimum of all the old membership degrees of every element to be removed
      */
     public double removeAll(ListSetFuzzy x) {
-        double result = 1.0;
+        double result = 0.0;
         int i = size() - 1;
         int xIndex = x.size() - 1;
 
@@ -181,7 +182,11 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 i--;
             }
             else {
-                result = Math.min(result, remove(i, x.list.get(xIndex).getMembership()));
+                double oldMembership = x.list.get(xIndex).getMembership();
+                double newMembership = remove(i, x.list.get(xIndex).getMembership());
+                if (newMembership < oldMembership) {
+                    result = Math.max(result, newMembership);
+                }
                 i--;
                 xIndex--;
             }
@@ -240,16 +245,23 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 // Given element is greater than own element. Add it and search for next given element.
             } else if (compareResult == 1) {
                 list.add(i, listSet.list.get(j));
+                result = 1.0;
                 j++;
             }
         }
 
         // Add the rest of unchecked given elements.
-        list.addAll(listSet.list.subList(j, listSet.list.size()));
+        if (list.addAll(listSet.list.subList(j, listSet.list.size()))) {
+            result = 1.0;
+        }
 
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<FuzzyInteger> toList() {
         return List.copyOf(this.list);
     }

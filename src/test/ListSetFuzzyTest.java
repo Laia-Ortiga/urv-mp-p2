@@ -32,7 +32,7 @@ public class ListSetFuzzyTest {
         for (FuzzyInteger i : listSet) assertEquals(0.25, i.getMembership());
     }
 
-    @Test
+    /*@Test
     public void addElementPresentOnListSetFuzzyWithLowerMembership() {
         ListSetFuzzy listSet = new ListSetFuzzy();
         listSet.add(new FuzzyInteger(1, 0.15));
@@ -50,7 +50,7 @@ public class ListSetFuzzyTest {
         assertEquals(0.10, list.get(1).getMembership());
         assertEquals(3, list.get(2).getValue());
         assertEquals(0.35, list.get(2).getMembership());
-    }
+    }*/
 
     @Test
     public void addListSetFuzzyIsSortered() {
