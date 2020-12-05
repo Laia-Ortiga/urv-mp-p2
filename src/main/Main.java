@@ -10,27 +10,24 @@ public class Main {
 
         testListSetContainsRetainsAll();
 
+        testListSetRemove();
+
+        testListSetRemoveAll();
+
+        testListSetRetainAll();
+
         testListSetAddAll();
 
 
-//        ArrayList<Integer> a = new ArrayList<>();
-//        a.add(3);
-//        a.add(5);
-//        a.add(6);
-//        a.add(9);
-//        a.add(10);
-//        a.add(30);
-//        ArrayList<Integer> b = new ArrayList<>();
-//        b.add(5);
-//        b.add(6);
-//        b.add(7);
-//        b.add(33);
-//        ListSet set = new ListSet(a);
-//        System.out.println(set);
-//        ListSet removalSet = new ListSet(b);
-//        set.removeAll(removalSet);
-//        System.out.println(set);
-//        System.out.println(removalSet);
+        testListSetFuzzyRemove();
+
+        testListSetFuzzyRemoveAll();
+
+        testListSetFuzzyContains();
+
+        testListSetFuzzyContainsAll();
+
+        testListSetFuzzyRetainAll();
 
         testListSetFuzzyAddAll();
     }
@@ -101,6 +98,19 @@ public class Main {
         System.out.println("\nAfter the operation the set a is " + a + "\n");
     }
 
+
+    static void testListSetRemove() {
+        printTitle("ListSet@remove");
+    }
+
+    static void testListSetRemoveAll() {
+        printTitle("ListSet@removeAll");
+    }
+
+    static void testListSetRetainAll() {
+        printTitle("ListSet@retainAll");
+    }
+
     static void testListSetAddAll() {
         printTitle("ListSet@addAll");
 
@@ -126,6 +136,27 @@ public class Main {
         System.out.println("ListSet a: " + a + ", ListSet b: " + b);
         System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
         System.out.println("ListSet a: " + a + "\n");
+    }
+
+
+    static void testListSetFuzzyRemove() {
+        printTitle("ListSetFuzzy@remove");
+    }
+
+    static void testListSetFuzzyRemoveAll() {
+        printTitle("ListSetFuzzy@removeAll");
+    }
+
+    static void testListSetFuzzyContains() {
+        printTitle("ListSetFuzzy@contains");
+    }
+
+    static void testListSetFuzzyContainsAll() {
+        printTitle("ListSetFuzzy@containsAll");
+    }
+
+    static void testListSetFuzzyRetainAll() {
+        printTitle("ListSetFuzzy@retainAll");
     }
 
     static void testListSetFuzzyAddAll() {
