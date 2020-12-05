@@ -23,6 +23,7 @@ public class FuzzyInteger implements Comparable<FuzzyInteger> {
         return Integer.compare(value, o.value);
     }
 
+    @Override
     public String toString() {
         return "{" + value + ", " + membership + "}";
     }

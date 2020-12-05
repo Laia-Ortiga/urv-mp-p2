@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.lang.Math.*;
-
-import static java.lang.Double.min;
 
 public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
 
@@ -113,19 +110,27 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
 
     private double remove(int index, double membership) {
         if (1 - membership < list.get(index).getMembership()) {
+            double oldMembership = list.get(index).getMembership();
             if (membership == 1.0) {
+                // Remove entirely from the list if the membership would be 0.0
                 list.remove(index);
-                return 1.0;
             }
             else {
-                double oldMembership = list.get(index).getMembership();
                 list.set(index, new FuzzyInteger(list.get(index).getValue(), 1 - membership));
-                return oldMembership;
             }
+            return oldMembership;
         }
         return 0.0;
     }
 
+    /**
+     * Removes an element from this fuzzy set.
+     * Removing doesn't mean to set the membership degree of the element to 0.0, but to the minimum of the old value and
+     * the new value (which is 1.0 - the membership degree of the element to remove)
+     *
+     * @param x the element to be removed from this set
+     * @return the old membership degree of the element to be removed or 0.0 if it wasn't there
+     */
     public double remove(FuzzyInteger x) {
         // search for element with same value
         int index = Collections.binarySearch(list, x);
@@ -135,6 +140,12 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
         return 0.0;
     }
 
+    /**
+     * Acts as if using the method remove for every single element of the specified set.
+     *
+     * @param x the list of elements to be removed from this set
+     * @return the minimum of all the old membership degrees of every element to be removed
+     */
     public double removeAll(ListSetFuzzy x) {
         double result = 1.0;
         int i = size() - 1;
@@ -150,12 +161,12 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 i--;
             }
             else {
-                result *= remove(i, x.list.get(xIndex).getMembership());
+                result = Math.min(result, remove(i, x.list.get(xIndex).getMembership()));
                 i--;
                 xIndex--;
             }
         }
-        return 1.0 - result;
+        return result;
     }
 
     /**
@@ -221,13 +232,13 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
         return changed;
     }
 
+    public List<FuzzyInteger> toList() {
+        return List.copyOf(this.list);
+    }
+
     @Override
     public Iterator<FuzzyInteger> iterator() {
         return list.iterator();
-    }
-
-    public List<FuzzyInteger> toList() {
-        return List.copyOf(this.list);
     }
 
     @Override

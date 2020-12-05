@@ -22,6 +22,12 @@ public class ListSet implements Iterable<Integer> {
         return list.isEmpty();
     }
 
+    /**
+     * Removes an element from this set.
+     *
+     * @param x the element to be removed
+     * @return weather the element was there before doing this operation
+     */
     public boolean remove(Integer x) {
         int index = Collections.binarySearch(list, x);
         if (index >= 0) {
@@ -31,6 +37,12 @@ public class ListSet implements Iterable<Integer> {
         return false;
     }
 
+    /**
+     * Acts as if using the method remove for every single element of the specified set.
+     *
+     * @param x the list of elements to be removed from this set
+     * @return weather the set was modified by this operation
+     */
     public boolean removeAll(ListSet x) {
         int prevSize = list.size();
         int i = size() - 1;
