@@ -182,7 +182,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 i--;
             }
             else {
-                double oldMembership = x.list.get(xIndex).getMembership();
+                double oldMembership = list.get(i).getMembership();
                 double newMembership = remove(i, x.list.get(xIndex).getMembership());
                 if (newMembership < oldMembership) {
                     result = Math.max(result, newMembership);
