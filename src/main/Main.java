@@ -6,6 +6,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+        printTitle("contains method");
         ListSet a = new ListSet();
         a.add(3);
         a.add(5);
@@ -24,6 +25,7 @@ public class Main {
 
         b.add(5);
 
+        printTitle("containsAll method");
         System.out.println("The set a contains b as a subset: "+ a.containsAll(b) +"\n");
 
         System.out.println("Calculating the intersection of a " + a + " and b " + b+ " returns the boolean: ");
@@ -60,20 +62,31 @@ public class Main {
         System.out.println("Calculating the intersection of a " + a + " and b " + b+ " returns the boolean: ");
         System.out.println(a.retainAll(b));
         System.out.println("\nAfter the operation the set a is "+ a + "\n");
-
         a.removeAll(a);
         b.removeAll(b);
-        System.out.println("a i b són: "+ a + " " + b);
+
+        // addAll
+        printTitle("addAll method");
         a.add(0);
         a.add(1);
         a.add(2);
         a.add(4);
         b.add(3);
         b.add(4);
-        System.out.println("a i b són: "+ a + " " + b);
-        a.addAll(b);
-        System.out.println("a + b és "+a);
+        System.out.println("a := a ∪ b");
+        System.out.println("ListSet a: " + a + ", ListSet b: "+ b);
+        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
+        a.removeAll(a);
+        b.removeAll(b);
 
+        a.add(0);
+        a.add(1);
+        b.add(0);
+        b.add(1);
+        System.out.println("ListSet a: " + a + ", ListSet b: "+ b);
+        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
 
 
 
@@ -95,5 +108,14 @@ public class Main {
 //        set.removeAll(removalSet);
 //        System.out.println(set);
 //        System.out.println(removalSet);
+    }
+
+    /**
+     * Prints the given string underscored.
+     * @param title String to underscore
+     */
+    static void printTitle(String title) {
+        System.out.println("\n" + title);
+        System.out.println("―".repeat(title.length()));
     }
 }

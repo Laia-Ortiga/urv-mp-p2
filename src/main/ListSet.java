@@ -41,11 +41,9 @@ public class ListSet implements Iterable<Integer> {
         while (i >= 0 && xIndex >= 0) {
             if (list.get(i) < x.list.get(xIndex)) {
                 xIndex--;
-            }
-            else if (list.get(i) > x.list.get(xIndex)) {
+            } else if (list.get(i) > x.list.get(xIndex)) {
                 i--;
-            }
-            else {
+            } else {
                 list.remove(i);
                 i--;
                 xIndex--;
@@ -111,8 +109,7 @@ public class ListSet implements Iterable<Integer> {
             if (!intersectedSet.contains(value)) { // If not found in intersected set (not common values)
                 remove(value);  // We remove the element of the list and automatically step forward
                 changed = true;
-            }
-            else {   // If found in intersected set (common values)
+            } else {   // If found in intersected set (common values)
                 i++;  // We leave the element in the list and step forward
             }
         }
@@ -129,6 +126,7 @@ public class ListSet implements Iterable<Integer> {
 
         int index = Collections.binarySearch(list, number);
 
+        // Given element gonna be added on their own position in the ListSet.
         if (index < 0) {
             list.add(-index - 1, number);
             return true;
@@ -151,11 +149,14 @@ public class ListSet implements Iterable<Integer> {
         while (i < size() && j < listSet.size()) {
             compareResult = list.get(i).compareTo(listSet.list.get(j));
 
+            // Own element is lower than given element. Search for next given element.
             if (compareResult == -1) {
                 i++;
+                // Both elements are the same. Search for next elements on both ListSets.
             } else if (compareResult == 0) {
                 j++;
                 i++;
+                // Given element is greater than own element. Add it and search for next given element.
             } else if (compareResult == 1) {
                 list.add(i, listSet.list.get(j));
                 changed = true;
@@ -163,6 +164,7 @@ public class ListSet implements Iterable<Integer> {
             }
         }
 
+        // Add the rest of unchecked given elements.
         changed |= list.addAll(listSet.list.subList(j, listSet.list.size()));
 
         return changed;
