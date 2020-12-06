@@ -2,14 +2,20 @@ package main;
 
 import java.util.*;
 
+/**
+ * Class defining a Crisp set using a list to implement it.
+ */
 public class ListSet implements Iterable<Integer> {
 
     private final List<Integer> list;
 
+    /**
+     * Constructs an empty set.
+     */
     public ListSet() {
         list = new ArrayList<>();
     }
-
+    
     public void clear() {
         list.clear();
     }
