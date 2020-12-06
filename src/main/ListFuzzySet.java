@@ -93,15 +93,16 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
     /**
      * RetainAll method for calculating the intersection between an Integer ListSetFuzzy and
      * the current ListSetFuzzy.
-     * It returns a real number contaning the minimum value of the pertinences in the intersection set
+     * It returns a real number contaning the maximum value of the rejected elements memberships for the intersection
+     * set
      * It uses the method contains implemented using a binary search, so having both ListSetFuzzy
      * sorted are prerequisites.
      *
      * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
-     * @return real number contaning the minimum value of the pertinences in the intersection set
+     * @return real number contaning the maximum value of the rejected elements memberships for the intersection set
      */
     public double retainAll(ListFuzzySet intersectedSet) {
-        double result = 1.0;
+        double result = 0.0;
         int i = size() - 1;
         int j = intersectedSet.size() - 1;
 
@@ -110,9 +111,14 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
         while (i >= 0 && j >= 0) {
             int comparison = list.get(i).compareTo(intersectedSet.list.get(j));
             if (comparison == 0) {
-                double elementMembership = tnorm.apply(list.get(i).getMembership(),
+                double oldMembership = list.get(i).getMembership();
+                double elementMembership = tnorm.apply(oldMembership,
                         intersectedSet.list.get(j).getMembership());
                 list.set(i, new FuzzyInteger(list.get(i).getValue(), elementMembership));
+                if (elementMembership < oldMembership)
+                {
+                    result = Math.max(elementMembership, result);
+                }
                 i--;
                 j--;
             }

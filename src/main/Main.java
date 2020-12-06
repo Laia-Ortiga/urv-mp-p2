@@ -1,5 +1,7 @@
 package main;
 
+import java.sql.SQLOutput;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -10,8 +12,6 @@ public class Main {
         testListSetRemove();
 
         testListSetRemoveAll();
-
-        testListSetRetainAll();
 
         testListSetAddAll();
 
@@ -46,16 +46,17 @@ public class Main {
         a.add(3);
         a.add(5);
         a.add(6);
-        System.out.println("The set a contains 6: " + a.contains(6));
-        System.out.println("The set a contains 9 before insertion: " + a.contains(9));
+        System.out.println("The set A contains 6: " + a.contains(6));
+        System.out.println("The set A contains 9 before insertion: " + a.contains(9));
         a.add(9);
-        System.out.println("The set a contains 9 after insertion: " + a.contains(9));
+        System.out.println("The set A contains 9 after insertion: " + a.contains(9));
         a.add(10);
         a.add(30);
     }
 
     static void testListSetContainsAllRetainsAll() {
         printTitle("ListSet@containsAll & ListSet@retainAll");
+        System.out.println("B ⊆ A and A := A ∩ B");
 
         ListSet a = new ListSet();
         ListSet b = new ListSet();
@@ -64,53 +65,51 @@ public class Main {
         a.add(6);
 
         b.add(5);
-        System.out.println("The set a contains b as a subset: " + a.containsAll(b) + "\n");
+        System.out.println("The set A contains B as a subset: " + a.containsAll(b) + "\n");
 
-        System.out.println("Calculating the intersection of a " + a + " and b " + b + " returns the boolean: ");
+        System.out.println("Calculating the intersection of A " + a + " and B " + b + " returns the boolean: ");
         System.out.println(a.retainAll(b));
-        System.out.println("\nAfter the operation the set a is " + a + "\n");
+        System.out.println("\nAfter the operation the set A is " + a + "\n");
 
         b.add(6);
-        System.out.println("b is now " + b);
-        System.out.println("The set a contains b as a subset: " + a.containsAll(b) + "\n");
+        System.out.println("B is now " + b);
+        System.out.println("The set A contains B as a subset: " + a.containsAll(b) + "\n");
 
         a.add(3);
         a.add(5);
         a.add(6);
 
-        System.out.println("Calculating the intersection of a " + a + " and b " + b + " returns the boolean: ");
+        System.out.println("Calculating the intersection of A " + a + " and B " + b + " returns the boolean: ");
         System.out.println(a.retainAll(b));
-        System.out.println("\nAfter the operation the set a is " + a + "\n");
+        System.out.println("\nAfter the operation the set A is " + a + "\n");
 
         b.add(7);
         b.add(33);
-        System.out.println("b is now " + b);
-        System.out.println("The set a contains b as a subset: " + a.containsAll(b) + "\n");
+        System.out.println("B is now " + b);
+        System.out.println("The set A contains B as a subset: " + a.containsAll(b) + "\n");
 
         a.add(3);
         a.add(5);
         a.add(6);
 
-        System.out.println("Calculating the intersection of a " + a + " and b " + b + " returns the boolean: ");
+        System.out.println("Calculating the intersection of A " + a + " and B " + b + " returns the boolean: ");
         System.out.println(a.retainAll(b));
-        System.out.println("\nAfter the operation the set a is " + a + "\n");
+        System.out.println("\nAfter the operation the set A is " + a + "\n");
     }
-
 
     static void testListSetRemove() {
         printTitle("ListSet@remove");
+        System.out.println("A: A\\{a}");
     }
 
     static void testListSetRemoveAll() {
         printTitle("ListSet@removeAll");
-    }
-
-    static void testListSetRetainAll() {
-        printTitle("ListSet@retainAll");
+        System.out.println("A: A\\B");
     }
 
     static void testListSetAddAll() {
         printTitle("ListSet@addAll");
+        System.out.println("A: A ∪ B");
 
         ListSet a = new ListSet();
         ListSet b = new ListSet();
@@ -120,10 +119,10 @@ public class Main {
         a.add(4);
         b.add(3);
         b.add(4);
-        System.out.println("a := a ∪ b");
-        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
-        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
-        System.out.println("ListSet a: " + a + "\n");
+        System.out.println("A := A ∪ B");
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: A has" + (a.addAll(b) ? "" : "n't") + " changed");
+        System.out.println("ListSet A: " + a + "\n");
         a.clear();
         b.clear();
 
@@ -131,18 +130,22 @@ public class Main {
         a.add(1);
         b.add(0);
         b.add(1);
-        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
-        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
-        System.out.println("ListSet a: " + a + "\n");
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: A has" + (a.addAll(b) ? "" : "n't") + " changed");
+        System.out.println("ListSet A: " + a + "\n");
     }
 
 
     static void testListFuzzySetRemove() {
         printTitle("ListFuzzySet@remove");
+        System.out.println("A: A\\{a}");
+
+
     }
 
     static void testListFuzzySetRemoveAll() {
         printTitle("ListFuzzySet@removeAll");
+        System.out.println("A: A\\B");
 
         ListFuzzySet z = new ListFuzzySet();
         z.add(new FuzzyInteger(3, 0.1));
@@ -160,19 +163,85 @@ public class Main {
 
     static void testListFuzzySetContains() {
         printTitle("ListFuzzySet@contains");
+        System.out.println("a ∊ A");
 
         ListFuzzySet z = new ListFuzzySet();
         z.add(new FuzzyInteger(3, 0.1));
         z.add(new FuzzyInteger(5, 0.9));
         z.add(new FuzzyInteger(7, 0.3));
+        System.out.println("A: "+z);
+        FuzzyInteger w1 = new FuzzyInteger(3, 0.05);
+        System.out.println("a: "+ w1);
+        double prova1 = z.contains(w1);
+        System.out.println(prova1);
+        FuzzyInteger w2 = new FuzzyInteger(3, 0.95);
+        System.out.println("a: "+ w2);
+        double prova2 = z.contains(w2);
+        System.out.println(prova2);
+        FuzzyInteger w3 = new FuzzyInteger(8, 0.1);
+        System.out.println("a: "+ w3);
+        double prova3 = z.contains(w3);
+        System.out.println(prova3);
     }
 
     static void testListFuzzySetContainsAll() {
+
         printTitle("ListFuzzySet@containsAll");
+        System.out.println("B ⊆ A");
+
+        ListFuzzySet z = new ListFuzzySet();
+        z.add(new FuzzyInteger(3, 0.1));
+        z.add(new FuzzyInteger(5, 0.9));
+        z.add(new FuzzyInteger(7, 0.3));
+        System.out.println("A: "+ z);
+        ListFuzzySet w = new ListFuzzySet();
+        w.add(new FuzzyInteger(3, 0.01));
+        w.add(new FuzzyInteger(5, 0.01));
+        w.add(new FuzzyInteger(7, 0.5));
+        System.out.println("B: "+ w);
+        double prova1 = z.containsAll(w);
+        System.out.println(prova1);
+        w.clear();
+        w.add(new FuzzyInteger(3, 0.01));
+        w.add(new FuzzyInteger(5, 0.01));
+        w.add(new FuzzyInteger(7, 0.2));
+        System.out.println("B: "+ w);
+        double prova2 = z.containsAll(w);
+        System.out.println(prova2);
+        w.clear();
+        w.add(new FuzzyInteger(3, 0.1));
+        w.add(new FuzzyInteger(5, 0.9));
+        w.add(new FuzzyInteger(7, 0.3));
+        System.out.println("B: "+ w);
+        double prova3 = z.containsAll(w);
+        System.out.println(prova3);
+        w.clear();
+        w.add(new FuzzyInteger(3, 0.1));
+        w.add(new FuzzyInteger(7, 0.3));
+        System.out.println("B: "+ w);
+        double prova4 = z.containsAll(w);
+        System.out.println(prova4);
+        w.clear();
+        System.out.println("B: "+ w);
+        double prova5 = z.containsAll(w);
+        System.out.println(prova5);
+        z.clear();
+        System.out.println("A: "+ z);
+        System.out.println("B: "+ w);
+        double prova6 = z.containsAll(w);
+        System.out.println(prova6);
+        z.add(new FuzzyInteger(3, 0.1));
+        z.add(new FuzzyInteger(4, 0.75));
+        w.add(new FuzzyInteger(4, 0.75));
+        System.out.println("A: "+ z);
+        System.out.println("B: "+ w);
+        double prova7 = z.containsAll(w);
+        System.out.println(prova7);
     }
 
     static void testListFuzzySetRetainAll() {
         printTitle("ListFuzzySet@retainAll");
+        System.out.println("A := A ∩ B");
 
         ListFuzzySet a = new ListFuzzySet();
         ListFuzzySet b = new ListFuzzySet();
@@ -182,14 +251,77 @@ public class Main {
         a.add(new FuzzyInteger(6, 0.6));
         b.add(new FuzzyInteger(3, 0.2));
         b.add(new FuzzyInteger(4, 0.4));
-        //System.out.println("a := a ∪ b");
-        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
         System.out.println("Result: " + a.retainAll(b));
-        System.out.println("ListSet a: " + a + "\n");
+        System.out.println("ListSet A: " + a + "\n");
+        a.clear();
+        b.clear();
+
+        a.add(new FuzzyInteger(1, 0.1));
+        a.add(new FuzzyInteger(5, 0.5));
+        a.add(new FuzzyInteger(3, 0.3));
+        a.add(new FuzzyInteger(6, 0.6));
+        b.add(new FuzzyInteger(4, 0.4));
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: " + a.retainAll(b));
+        System.out.println("ListSet A: " + a + "\n");
+        a.clear();
+        b.clear();
+
+        a.add(new FuzzyInteger(1, 0.1));
+        a.add(new FuzzyInteger(5, 0.5));
+        a.add(new FuzzyInteger(3, 0.3));
+        a.add(new FuzzyInteger(6, 0.6));
+        b.add(new FuzzyInteger(3, 0.2));
+        b.add(new FuzzyInteger(5, 0.5));
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: " + a.retainAll(b));
+        System.out.println("ListSet A: " + a + "\n");
+        a.clear();
+        b.clear();
+
+        a.add(new FuzzyInteger(1, 0.1));
+        a.add(new FuzzyInteger(5, 0.5));
+        a.add(new FuzzyInteger(3, 0.3));
+        a.add(new FuzzyInteger(6, 0.6));
+        b.add(new FuzzyInteger(3, 0.3));
+        b.add(new FuzzyInteger(5, 0.5));
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: " + a.retainAll(b));
+        System.out.println("ListSet A: " + a + "\n");
+
+        a.add(new FuzzyInteger(1, 0.1));
+        a.add(new FuzzyInteger(5, 0.5));
+        a.add(new FuzzyInteger(3, 0.3));
+        a.add(new FuzzyInteger(6, 0.6));
+        b.add(new FuzzyInteger(1, 0.2));
+        b.add(new FuzzyInteger(5, 0.6));
+        b.add(new FuzzyInteger(3, 0.4));
+        b.add(new FuzzyInteger(6, 0.7));
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: " + a.retainAll(b));
+        System.out.println("ListSet A: " + a + "\n");
+        a.clear();
+        b.clear();
+
+        a.add(new FuzzyInteger(1, 0.1));
+        a.add(new FuzzyInteger(5, 0.5));
+        a.add(new FuzzyInteger(3, 0.3));
+        a.add(new FuzzyInteger(6, 0.6));
+        b.add(new FuzzyInteger(1, 0.1));
+        b.add(new FuzzyInteger(5, 0.5));
+        b.add(new FuzzyInteger(3, 0.3));
+        b.add(new FuzzyInteger(6, 0.6));
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
+        System.out.println("Result: " + a.retainAll(b));
+        System.out.println("ListSet A: " + a + "\n");
+        a.clear();
+        b.clear();
     }
 
     static void testListFuzzySetAddAll() {
         printTitle("ListFuzzySet@addAll");
+        System.out.println("A: A ∪ B");
 
         ListFuzzySet a = new ListFuzzySet();
         ListFuzzySet b = new ListFuzzySet();
@@ -199,10 +331,9 @@ public class Main {
         a.add(new FuzzyInteger(6, 0.6));
         b.add(new FuzzyInteger(2, 0.2));
         b.add(new FuzzyInteger(4, 0.4));
-        System.out.println("a := a ∪ b");
-        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
         System.out.println("Result: " + a.addAll(b));
-        System.out.println("ListSet a: " + a + "\n");
+        System.out.println("ListSet A: " + a + "\n");
 
         a = new ListFuzzySet();
         b = new ListFuzzySet();
@@ -211,9 +342,9 @@ public class Main {
         a.add(new FuzzyInteger(2, 0.2));
         b.add(new FuzzyInteger(1, 0.1));
         b.add(new FuzzyInteger(2, 0.4));
-        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
         System.out.println("Result: " + a.addAll(b));
-        System.out.println("ListSet a: " + a + "\n");
+        System.out.println("ListSet A: " + a + "\n");
 
         a = new ListFuzzySet();
         b = new ListFuzzySet();
@@ -222,8 +353,8 @@ public class Main {
         a.add(new FuzzyInteger(2, 0.4));
         b.add(new FuzzyInteger(1, 0.1));
         b.add(new FuzzyInteger(2, 0.2));
-        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
+        System.out.println("ListSet A: " + a + ", ListSet B: " + b);
         System.out.println("Result: " + a.addAll(b));
-        System.out.println("ListSet a: " + a + "\n");
+        System.out.println("ListSet A: " + a + "\n");
     }
 }
