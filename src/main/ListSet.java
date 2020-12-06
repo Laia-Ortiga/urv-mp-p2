@@ -112,19 +112,30 @@ public class ListSet implements Iterable<Integer> {
      * in the new set were not already present in the original set
      */
     public boolean retainAll(ListSet intersectedSet) {
-        // Equivalent to calculating A\(A\B) and leaving the result in list
         boolean changed = false;
-        int i = 0;
-        while (i < list.size()) {                             // Traverse the original set.
-            Integer value = list.get(i);
-            // Check whether the elements of the original set are also members of the intersected set
-            if (!intersectedSet.contains(value)) { // If not found in intersected set (not common values)
-                remove(value);  // We remove the element of the list and automatically step forward
-                changed = true;
-            } else {   // If found in intersected set (common values)
-                i++;  // We leave the element in the list and step forward
+        int i = size() - 1;
+        int j = intersectedSet.size() - 1;
+
+        // We iterate from back to front as removing from an ArrayList shifts elements after the one removed
+        // This way it should be a little faster
+        while (i >= 0 && j >= 0) {
+            int comparison = list.get(i).compareTo(intersectedSet.list.get(j));
+            if (comparison == 0) {
+                i--;
+                j--;
+            }
+            else {
+                if (comparison < 0) {
+                    j--;
+                }
+                else {
+                    changed = true;
+                    list.remove(i);
+                    i--;
+                }
             }
         }
+        list.subList(0, i + 1).clear();
         return changed;
     }
 
