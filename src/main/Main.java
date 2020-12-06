@@ -1,7 +1,5 @@
 package main;
 
-import java.sql.SQLOutput;
-
 public class Main {
 
     private static double hamacherProduct(double a, double b) {
