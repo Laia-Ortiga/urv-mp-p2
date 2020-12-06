@@ -75,6 +75,7 @@ public class Main {
         System.out.println("\nAfter the operation the set a is " + a + "\n");
 
         b.add(6);
+        System.out.println("b is now " + b);
         System.out.println("The set a contains b as a subset: " + a.containsAll(b) + "\n");
 
         a.add(3);
@@ -87,6 +88,7 @@ public class Main {
 
         b.add(7);
         b.add(33);
+        System.out.println("b is now " + b);
         System.out.println("The set a contains b as a subset: " + a.containsAll(b) + "\n");
 
         a.add(3);

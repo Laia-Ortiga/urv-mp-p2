@@ -88,16 +88,20 @@ public class ListSet implements Iterable<Integer> {
      * @return boolean indicating whether a ListSet is a subset or not
      */
     public boolean containsAll(ListSet subsetCandidate) {
-        boolean result = true;
-        int counter = 0;
-        int lengthSubsetCandidate = subsetCandidate.list.size();
-        while (result && counter < lengthSubsetCandidate) {  // Search for some element in the subset candidate that is not in the original set
-            if (contains(subsetCandidate.list.get(counter))) {  // If a single element is not contained, then it is not a subset
-                result = false;
+        int i = 0;
+        int j = 0;
+
+        while (i < size() && j < subsetCandidate.size()) {
+            int compareResult = list.get(i).compareTo(subsetCandidate.list.get(j));
+            i++;
+
+            if (compareResult == 0) {
+                j++;
+            } else if (compareResult > 0) {
+                return false;
             }
-            counter++;
         }
-        return result;
+        return j == subsetCandidate.size();
     }
 
     /**
