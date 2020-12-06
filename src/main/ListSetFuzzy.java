@@ -184,7 +184,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
             list.add(-index - 1, number);
             return true;
             // Adds given element if has lower membership
-        } else if (list.get(index).getMembership() > number.getMembership()) {
+        } else if (list.get(index).getMembership() < number.getMembership()) {
             list.set(index, number);
             return true;
         }
@@ -212,7 +212,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 // Both elements are the same. Search for next elements on both ListSets.
             } else if (compareResult == 0) {
                 // Adds given element if has lower membership
-                if (list.get(i).getMembership() > listSet.list.get(j).getMembership()) {
+                if (list.get(i).getMembership() < listSet.list.get(j).getMembership()) {
                     list.set(i, listSet.list.get(j));
                     changed = true;
                 }

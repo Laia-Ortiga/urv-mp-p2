@@ -29,7 +29,7 @@ public class ListSetFuzzyTest {
 
         assertEquals(1, listSet.size());
         for (FuzzyInteger i : listSet) assertEquals(1, i.getValue());
-        for (FuzzyInteger i : listSet) assertEquals(0.25, i.getMembership());
+        for (FuzzyInteger i : listSet) assertEquals(0.35, i.getMembership());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ListSetFuzzyTest {
         listSet.add(new FuzzyInteger(2, 0.25));
         listSet.add(new FuzzyInteger(3, 0.35));
 
-        boolean result = listSet.add(new FuzzyInteger(2, 0.10));
+        boolean result = listSet.add(new FuzzyInteger(2, 0.9));
 
         assertTrue(result);
         assertEquals(3, listSet.size());
@@ -47,7 +47,7 @@ public class ListSetFuzzyTest {
         assertEquals(1, list.get(0).getValue());
         assertEquals(0.15, list.get(0).getMembership());
         assertEquals(2, list.get(1).getValue());
-        assertEquals(0.10, list.get(1).getMembership());
+        assertEquals(0.9, list.get(1).getMembership());
         assertEquals(3, list.get(2).getValue());
         assertEquals(0.35, list.get(2).getMembership());
     }
@@ -78,7 +78,7 @@ public class ListSetFuzzyTest {
         ListSetFuzzy listSet2 = new ListSetFuzzy();
         listSet.add(new FuzzyInteger(1, 0.25));
         listSet.add(new FuzzyInteger(2, 0.35));
-        listSet.add(new FuzzyInteger(3, 0.1));
+        listSet.add(new FuzzyInteger(3, 0.9));
 
         listSet.addAll(listSet2);
 
@@ -89,7 +89,7 @@ public class ListSetFuzzyTest {
         assertEquals(2, list.get(1).getValue());
         assertEquals(0.35, list.get(1).getMembership());
         assertEquals(3, list.get(2).getValue());
-        assertEquals(0.1, list.get(2).getMembership());
+        assertEquals(0.9, list.get(2).getMembership());
     }
 
     @Test
