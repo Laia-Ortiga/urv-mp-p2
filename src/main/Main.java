@@ -100,11 +100,49 @@ public class Main {
     static void testListSetRemove() {
         printTitle("ListSet@remove");
         System.out.println("A: A\\{a}");
+        int numberToTest = 2;
+
+        ListSet a = new ListSet();
+        a.add(1);
+        a.add(3);
+        a.add(numberToTest);
+
+        System.out.println("a := a/{x}");
+        System.out.println("ListSet a: " + a + ", number to delete: " + numberToTest);
+        System.out.println("Result: a has" + (a.remove(numberToTest) ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
+
+        System.out.println("ListSet a: " + a + ", number to delete: " + numberToTest);
+        System.out.println("Result: a has" + (a.remove(numberToTest) ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
     }
 
     static void testListSetRemoveAll() {
         printTitle("ListSet@removeAll");
         System.out.println("A: A\\B");
+
+        ListSet a = new ListSet();
+        ListSet b = new ListSet();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        a.add(4);
+        a.add(5);
+        b.add(2);
+        b.add(4);
+
+        System.out.println("a := a/b");
+        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
+        System.out.println("Result: a has" + (a.removeAll(b) ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
+
+        System.out.println("ListSet a: " + a + ", ListSet b: " + b);
+        System.out.println("Result: a has" + (a.removeAll(b) ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
+    }
+
+    static void testListSetRetainAll() {
+        printTitle("ListSet@retainAll");
     }
 
     static void testListSetAddAll() {
@@ -141,24 +179,41 @@ public class Main {
         System.out.println("A: A\\{a}");
 
 
+        FuzzyInteger numberToTest = new FuzzyInteger(2,  1);
+        double previousMembershipResult;
+
+        ListFuzzySet a = new ListFuzzySet();
+        a.add(new FuzzyInteger(1, 0.5));
+        a.add(new FuzzyInteger(2, 0.5));
+        a.add(new FuzzyInteger(3, 0.7));
+        System.out.println("a := a/{x}");
+        System.out.println("ListSet a: " + a + ", number to delete: " + numberToTest);
+        previousMembershipResult = a.remove(numberToTest);
+        System.out.println("Result: a has" + (previousMembershipResult != 0.0 ? "" : "n't") + " changed");
+        System.out.println("Membership from removed element equals to: " + previousMembershipResult);
+        System.out.println("ListSet a: " + a + "\n");
+
+        System.out.println("ListSet a: " + a + ", number to delete: " + numberToTest);
+        System.out.println("Result: a has" + (a.remove(numberToTest) != 0.0 ? "" : "n't") + " changed");
+        System.out.println("ListSet a: " + a + "\n");
     }
 
     static void testListFuzzySetRemoveAll() {
         printTitle("ListFuzzySet@removeAll");
         System.out.println("A: A\\B");
 
-        ListFuzzySet z = new ListFuzzySet();
-        z.add(new FuzzyInteger(3, 0.1));
-        z.add(new FuzzyInteger(5, 0.9));
-        z.add(new FuzzyInteger(7, 0.3));
-        System.out.println(z);
-        ListFuzzySet w = new ListFuzzySet();
-        w.add(new FuzzyInteger(3, 0.01));
-        w.add(new FuzzyInteger(5, 0.01));
-        w.add(new FuzzyInteger(7, 0.5));
-        System.out.println(w);
-        double hi = z.removeAll(w);
-        System.out.println(hi + ": " + z);
+        ListFuzzySet a = new ListFuzzySet();
+        a.add(new FuzzyInteger(1, 0.1));
+        a.add(new FuzzyInteger(2, 0.7));
+        a.add(new FuzzyInteger(3, 0.1));
+        ListFuzzySet b = new ListFuzzySet();
+        b.add(new FuzzyInteger(2, 0.4));
+
+        System.out.println("ListSet a: " + a + ", numbers to delete: " + b);
+        double minimumMembershipFromDeletedValues = a.removeAll(b);
+        System.out.println("Result: a has" + (minimumMembershipFromDeletedValues != 0.0 ? "" : "n't") + " changed");
+        System.out.println("Membership from removed element equals to: " + minimumMembershipFromDeletedValues);
+        System.out.println("ListSet a: " + a + "\n");
     }
 
     static void testListFuzzySetContains() {

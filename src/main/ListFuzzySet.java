@@ -204,9 +204,10 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
 
     /**
      * Adds new element into the list sorting it ascending by value.
+     * Updates element membership in case the newer is greater than the actual membership element.
      *
      * @param number Element to be added
-     * @return
+     * @return Previous membership from updated element. 0.0 in case element was not present.
      */
     public double add(FuzzyInteger number) {
         if (number == null) return 0.0;
@@ -228,8 +229,10 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
 
     /**
      * Adds new elements into the list.
+     * In case new element is present on the list, updates the membership value ifthe newer its greater.
      *
      * @param listSet Elements to be added
+     * @return Maximum membership from changed FuzzyIntegers
      */
     public double addAll(ListFuzzySet listSet) {
         double result = 0.0;
