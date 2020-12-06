@@ -4,6 +4,13 @@ import java.sql.SQLOutput;
 
 public class Main {
 
+    private static double hamacherProduct(double a, double b) {
+        if (a == 0.0 && b == 0.0) {
+            return 0.0;
+        }
+        return a * b / (a + b - a * b);
+    }
+
     public static void main(String[] args) {
         testListSetContains();
 
@@ -15,18 +22,10 @@ public class Main {
 
         testListSetAddAll();
 
-
-        testListFuzzySetRemove();
-
-        testListFuzzySetRemoveAll();
-
-        testListFuzzySetContains();
-
-        testListFuzzySetContainsAll();
-
-        testListFuzzySetRetainAll();
-
-        testListFuzzySetAddAll();
+        testListFuzzySet(new TNorm(Math::min));
+        testListFuzzySet(new TNorm((a, b) -> Math.max(0.0, a + b - 1.0)));
+        testListFuzzySet(new TNorm((a, b) -> a * b));
+        testListFuzzySet(new TNorm(Main::hamacherProduct));
     }
 
     /**
@@ -167,7 +166,22 @@ public class Main {
     }
 
 
-    static void testListFuzzySetRemove() {
+    static void testListFuzzySet(TNorm tnorm) {
+        testListFuzzySetRemove(tnorm);
+
+        testListFuzzySetRemoveAll(tnorm);
+
+        testListFuzzySetContains(tnorm);
+
+        testListFuzzySetContainsAll(tnorm);
+
+        testListFuzzySetRetainAll(tnorm);
+
+        testListFuzzySetAddAll(tnorm);
+    }
+
+
+    static void testListFuzzySetRemove(TNorm tnorm) {
         printTitle("ListFuzzySet@remove");
         System.out.println("A: A\\{a}");
 
@@ -175,7 +189,7 @@ public class Main {
         FuzzyInteger numberToTest = new FuzzyInteger(2,  1);
         double previousMembershipResult;
 
-        ListFuzzySet a = new ListFuzzySet();
+        ListFuzzySet a = new ListFuzzySet(tnorm);
         a.add(new FuzzyInteger(1, 0.5));
         a.add(new FuzzyInteger(2, 0.5));
         a.add(new FuzzyInteger(3, 0.7));
@@ -191,15 +205,15 @@ public class Main {
         System.out.println("ListSet A: " + a + "\n");
     }
 
-    static void testListFuzzySetRemoveAll() {
+    static void testListFuzzySetRemoveAll(TNorm tnorm) {
         printTitle("ListFuzzySet@removeAll");
         System.out.println("A: A\\B");
 
-        ListFuzzySet a = new ListFuzzySet();
+        ListFuzzySet a = new ListFuzzySet(tnorm);
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(2, 0.7));
         a.add(new FuzzyInteger(3, 0.1));
-        ListFuzzySet b = new ListFuzzySet();
+        ListFuzzySet b = new ListFuzzySet(tnorm);
         b.add(new FuzzyInteger(2, 0.4));
 
         System.out.println("ListSet A: " + a + ", numbers to delete: " + b);
@@ -209,11 +223,11 @@ public class Main {
         System.out.println("ListSet A: " + a + "\n");
     }
 
-    static void testListFuzzySetContains() {
+    static void testListFuzzySetContains(TNorm tnorm) {
         printTitle("ListFuzzySet@contains");
         System.out.println("a ∊ A");
 
-        ListFuzzySet z = new ListFuzzySet();
+        ListFuzzySet z = new ListFuzzySet(tnorm);
         z.add(new FuzzyInteger(3, 0.1));
         z.add(new FuzzyInteger(5, 0.9));
         z.add(new FuzzyInteger(7, 0.3));
@@ -232,17 +246,17 @@ public class Main {
         System.out.println(prova3);
     }
 
-    static void testListFuzzySetContainsAll() {
+    static void testListFuzzySetContainsAll(TNorm tnorm) {
 
         printTitle("ListFuzzySet@containsAll");
         System.out.println("B ⊆ A");
 
-        ListFuzzySet z = new ListFuzzySet();
+        ListFuzzySet z = new ListFuzzySet(tnorm);
         z.add(new FuzzyInteger(3, 0.1));
         z.add(new FuzzyInteger(5, 0.9));
         z.add(new FuzzyInteger(7, 0.3));
         System.out.println("A: "+ z);
-        ListFuzzySet w = new ListFuzzySet();
+        ListFuzzySet w = new ListFuzzySet(tnorm);
         w.add(new FuzzyInteger(3, 0.01));
         w.add(new FuzzyInteger(5, 0.01));
         w.add(new FuzzyInteger(7, 0.5));
@@ -287,12 +301,12 @@ public class Main {
         System.out.println(prova7);
     }
 
-    static void testListFuzzySetRetainAll() {
+    static void testListFuzzySetRetainAll(TNorm tnorm) {
         printTitle("ListFuzzySet@retainAll");
         System.out.println("A := A ∩ B");
 
-        ListFuzzySet a = new ListFuzzySet();
-        ListFuzzySet b = new ListFuzzySet();
+        ListFuzzySet a = new ListFuzzySet(tnorm);
+        ListFuzzySet b = new ListFuzzySet(tnorm);
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(5, 0.5));
         a.add(new FuzzyInteger(3, 0.3));
@@ -367,12 +381,12 @@ public class Main {
         b.clear();
     }
 
-    static void testListFuzzySetAddAll() {
+    static void testListFuzzySetAddAll(TNorm tnorm) {
         printTitle("ListFuzzySet@addAll");
         System.out.println("A: A ∪ B");
 
-        ListFuzzySet a = new ListFuzzySet();
-        ListFuzzySet b = new ListFuzzySet();
+        ListFuzzySet a = new ListFuzzySet(tnorm);
+        ListFuzzySet b = new ListFuzzySet(tnorm);
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(5, 0.5));
         a.add(new FuzzyInteger(3, 0.3));

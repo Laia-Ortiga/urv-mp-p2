@@ -26,7 +26,7 @@ public class ListFuzzySet implements Iterable<FuzzyInteger> {
     /**
      * Constructs an empty fuzzy set. In this case, the triangular norm that will be used is passed by parameter.
      *
-     * @param t-norm triangular norm that will be used
+     * @param tnorm triangular norm that will be used
      */
     public ListFuzzySet(TNorm tnorm) {
         this.list = new ArrayList<>();
