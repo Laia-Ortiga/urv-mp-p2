@@ -13,8 +13,10 @@ public class ListSetTest {
     public void addOneElement() {
         ListSet listSet = new ListSet();
 
-        listSet.add(1);
+        boolean result = listSet.add(1);
 
+        assertTrue(result);
+        assertFalse(listSet.isEmpty());
         for (int i : listSet) assertEquals(1, i);
         assertEquals(1, listSet.size());
     }

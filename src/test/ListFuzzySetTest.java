@@ -15,6 +15,7 @@ public class ListFuzzySetTest {
 
         listSet.add(new FuzzyInteger(1, 0.25));
 
+        assertFalse(listSet.isEmpty());
         assertEquals(1, listSet.size());
         for (FuzzyInteger i : listSet) assertEquals(1, i.getValue());
         for (FuzzyInteger i : listSet) assertEquals(0.25, i.getMembership());
