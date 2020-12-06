@@ -1,17 +1,17 @@
 package test;
 
 import main.FuzzyInteger;
-import main.ListSetFuzzy;
+import main.ListFuzzySet;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ListSetFuzzyTest {
+public class ListFuzzySetTest {
     @Test
     public void addOneElement() {
-        ListSetFuzzy listSet = new ListSetFuzzy();
+        ListFuzzySet listSet = new ListFuzzySet();
 
         listSet.add(new FuzzyInteger(1, 0.25));
 
@@ -22,7 +22,7 @@ public class ListSetFuzzyTest {
 
     @Test
     public void addElementPresentOnListSetFuzzyWithGreaterMembership() {
-        ListSetFuzzy listSet = new ListSetFuzzy();
+        ListFuzzySet listSet = new ListFuzzySet();
         listSet.add(new FuzzyInteger(1, 0.25));
 
         listSet.add(new FuzzyInteger(1, 0.35));
@@ -54,7 +54,7 @@ public class ListSetFuzzyTest {
 
     @Test
     public void addListSetFuzzyIsSortered() {
-        ListSetFuzzy listSet = new ListSetFuzzy();
+        ListFuzzySet listSet = new ListFuzzySet();
 
         listSet.add(new FuzzyInteger(1, 0.25));
         listSet.add(new FuzzyInteger(2, 0.35));
@@ -72,10 +72,10 @@ public class ListSetFuzzyTest {
 
     @Test
     public void addListSetFuzzy() {
-        ListSetFuzzy listSet = new ListSetFuzzy();
+        ListFuzzySet listSet = new ListFuzzySet();
         listSet.add(new FuzzyInteger(1, 0.25));
         listSet.add(new FuzzyInteger(3, 0.45));
-        ListSetFuzzy listSet2 = new ListSetFuzzy();
+        ListFuzzySet listSet2 = new ListFuzzySet();
         listSet.add(new FuzzyInteger(1, 0.25));
         listSet.add(new FuzzyInteger(2, 0.35));
         listSet.add(new FuzzyInteger(3, 0.9));
@@ -94,8 +94,8 @@ public class ListSetFuzzyTest {
 
     @Test
     public void addListSetFuzzyDestinationListIsEmpty() {
-        ListSetFuzzy listSet = new ListSetFuzzy();
-        ListSetFuzzy listSet2 = new ListSetFuzzy();
+        ListFuzzySet listSet = new ListFuzzySet();
+        ListFuzzySet listSet2 = new ListFuzzySet();
         listSet.add(new FuzzyInteger(1, 0.25));
         listSet.add(new FuzzyInteger(2, 0.35));
         listSet.add(new FuzzyInteger(3, 0.45));
