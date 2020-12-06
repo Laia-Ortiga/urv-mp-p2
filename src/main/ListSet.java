@@ -2,22 +2,38 @@ package main;
 
 import java.util.*;
 
+
 public class ListSet implements Iterable<Integer> {
 
+    /**
+     * Structure where elements from ListSet are stored.
+     */
     private final List<Integer> list;
+
 
     public ListSet() {
         list = new ArrayList<>();
     }
 
+    /**
+     * Removes all elements from the set.
+     */
     public void clear() {
         list.clear();
     }
 
+    /**
+     * Return the number of elements in the set.
+     * @return  Elements in the set
+     */
     public int size() {
         return list.size();
     }
 
+    /**
+     * Indicates if the set has no elements.
+     * @return wheter set has no elements
+     */
     public boolean isEmpty() {
         return list.isEmpty();
     }
@@ -199,11 +215,19 @@ public class ListSet implements Iterable<Integer> {
         return changed;
     }
 
+    /**
+     * Returns an Iterator over elements from ListSet.
+     * @return Iterator over elements from ListSet
+     */
     @Override
     public Iterator<Integer> iterator() {
         return list.iterator();
     }
 
+    /**
+     * Returns a textual represent of the ListSet.
+     * @return Representation of the ListSet
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -218,6 +242,10 @@ public class ListSet implements Iterable<Integer> {
         return sb.toString();
     }
 
+    /**
+     * Return elements from the ListSet in a List.
+     * @return List with ListSet elements
+     */
     public List<Integer> toList() {
         return List.copyOf(this.list);
     }
