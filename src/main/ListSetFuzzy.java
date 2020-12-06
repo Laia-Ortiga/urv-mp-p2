@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
 
-    private final List<FuzzyInteger> list;
+    private List<FuzzyInteger> list;
 
     private final TNorm tnorm;
 
@@ -79,7 +79,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 double oldMembership = list.get(i).getMembership();
                 double newMembership = tnorm.apply(oldMembership, fuzzySubsetCandidate.list.get(j).getMembership());
                 // Adds given element if has lower membership
-                result = Math.max(oldMembership, result);
+                result = Math.max(newMembership, result);
                 j++;
                 i++;
                 // Given element is greater than own element. Add it and search for next given element.
@@ -100,32 +100,34 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
      * @return real number contaning the minimum value of the pertinences in the intersection set
      */
-    public double retainAll(ListSetFuzzy fuzzySubsetCandidate) {
+    public double retainAll(ListSetFuzzy intersectedSet) {
         double result = 1.0;
         int i = size() - 1;
-        int j = fuzzySubsetCandidate.size() - 1;
+        int j = intersectedSet.size() - 1;
 
         // We iterate from back to front as removing from an ArrayList shifts elements after the one removed
         // This way it should be a little faster
         while (i >= 0 && j >= 0) {
-            int comparison = list.get(i).compareTo(fuzzySubsetCandidate.list.get(j));
+            int comparison = list.get(i).compareTo(intersectedSet.list.get(j));
             if (comparison == 0) {
                 double elementMembership = tnorm.apply(list.get(i).getMembership(),
-                        fuzzySubsetCandidate.list.get(j).getMembership());
-                result = Math.min(elementMembership, result);
+                        intersectedSet.list.get(j).getMembership());
+                list.set(i, new FuzzyInteger(list.get(i).getValue(), elementMembership));
                 i--;
                 j--;
             }
             else {
-                list.remove(i);
                 if (comparison < 0) {
                     j--;
                 }
                 else {
+                    result = Math.max(list.get(i).getMembership(), result);
+                    list.remove(i);
                     i--;
                 }
             }
         }
+        list.subList(0, i + 1).clear();
         return result;
     }
 
@@ -240,7 +242,10 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
                 double newMembership = 1.0 - tnorm.apply(1.0 - oldMembership, 1.0 - listSet.list.get(j).getMembership());
                 // Adds given element if has lower membership
                 list.set(i, new FuzzyInteger(listSet.list.get(j).getValue(), newMembership));
-                result = Math.max(oldMembership, result);
+
+                if (newMembership > oldMembership) {
+                    result = Math.max(newMembership, result);
+                }
                 j++;
                 i++;
                 // Given element is greater than own element. Add it and search for next given element.
