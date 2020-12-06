@@ -11,7 +11,7 @@ import java.util.List;
 public class ListFuzzySet implements Iterable<FuzzyInteger> {
 
     // Structure where elements from ListFuzzySet are stored.
-    private List<FuzzyInteger> list;
+    private final List<FuzzyInteger> list;
 
     private final TNorm tnorm;
 
@@ -108,11 +108,10 @@ public class ListFuzzySet implements Iterable<FuzzyInteger> {
 
     /**
      * Method for calculating the intersection between two fuzzy sets.
-     * It returns a real number contaning the maximum value of the distinct elements memberships for the intersection
-     * set.
+     * It returns the maximum of the modified memberships.
      *
      * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
-     * @return real number contaning the maximum value of the distinct elements memberships for the intersection set
+     * @return the maximum of the modified memberships
      */
     public double retainAll(ListFuzzySet intersectedSet) {
         double result = 0.0;
@@ -148,7 +147,6 @@ public class ListFuzzySet implements Iterable<FuzzyInteger> {
     }
 
     private double remove(int index, double membership) {
-        double oldMembership = list.get(index).getMembership();
         double newMembership = tnorm.apply(list.get(index).getMembership(), 1 - membership);
 
         if (newMembership == 0.0) {
@@ -184,7 +182,7 @@ public class ListFuzzySet implements Iterable<FuzzyInteger> {
      * Acts as if using the method remove for every single element of the specified set.
      *
      * @param x the list of elements to be removed from this set
-     * @return the maximum of the t-norms between the old memberships and the ones to be removed
+     * @return the maximum of the changed memberships
      */
     public double removeAll(ListFuzzySet x) {
         double result = 0.0;

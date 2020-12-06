@@ -199,7 +199,7 @@ public class ListSet implements Iterable<Integer> {
                 j++;
                 i++;
                 // Given element is greater than own element. Add it and search for next given element.
-            } else if (compareResult > 0) {
+            } else {
                 list.add(i, listSet.list.get(j));
                 changed = true;
                 j++;
