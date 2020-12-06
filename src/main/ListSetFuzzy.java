@@ -263,10 +263,6 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
         return result;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<FuzzyInteger> toList() {
         return List.copyOf(this.list);
     }
