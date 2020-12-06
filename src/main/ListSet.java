@@ -143,6 +143,7 @@ public class ListSet implements Iterable<Integer> {
      * Adds new element into the list sorting it ascending by value.
      *
      * @param number Element to be added
+     * @return Indicates if the set has changed
      */
     public boolean add(Integer number) {
         if (number == null) return false;
@@ -162,6 +163,7 @@ public class ListSet implements Iterable<Integer> {
      * Adds new elements into the list.
      *
      * @param listSet Elements to be added
+     * @return Indicates if the set has changed
      */
     public boolean addAll(ListSet listSet) {
         boolean changed = false;
