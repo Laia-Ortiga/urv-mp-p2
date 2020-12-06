@@ -198,6 +198,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * Adds new element into the list sorting it ascending by value.
      *
      * @param number Element to be added
+     * @return
      */
     public double add(FuzzyInteger number) {
         if (number == null) return 0.0;
