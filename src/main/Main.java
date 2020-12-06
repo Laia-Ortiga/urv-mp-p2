@@ -145,6 +145,19 @@ public class Main {
 
     static void testListSetFuzzyRemoveAll() {
         printTitle("ListSetFuzzy@removeAll");
+
+        ListSetFuzzy z = new ListSetFuzzy();
+        z.add(new FuzzyInteger(3, 0.1));
+        z.add(new FuzzyInteger(5, 0.9));
+        z.add(new FuzzyInteger(7, 0.3));
+        System.out.println(z);
+        ListSetFuzzy w = new ListSetFuzzy();
+        w.add(new FuzzyInteger(3, 0.01));
+        w.add(new FuzzyInteger(5, 0.01));
+        w.add(new FuzzyInteger(7, 0.5));
+        System.out.println(w);
+        double hi = z.removeAll(w);
+        System.out.println(hi + ": " + z);
     }
 
     static void testListSetFuzzyContains() {
@@ -172,7 +185,7 @@ public class Main {
         b.add(new FuzzyInteger(4, 0.4));
         System.out.println("a := a ∪ b");
         System.out.println("ListSet a: " + a + ", ListSet b: " + b);
-        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
+        //System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
         System.out.println("ListSet a: " + a + "\n");
 
         a = new ListSetFuzzy();
@@ -183,7 +196,7 @@ public class Main {
         b.add(new FuzzyInteger(1, 0.1));
         b.add(new FuzzyInteger(2, 0.4));
         System.out.println("ListSet a: " + a + ", ListSet b: " + b);
-        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
+        //System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
         System.out.println("ListSet a: " + a + "\n");
 
         a = new ListSetFuzzy();
@@ -194,7 +207,7 @@ public class Main {
         b.add(new FuzzyInteger(1, 0.1));
         b.add(new FuzzyInteger(2, 0.2));
         System.out.println("ListSet a: " + a + ", ListSet b: " + b);
-        System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
+        //System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
         System.out.println("ListSet a: " + a + "\n");
     }
 }
