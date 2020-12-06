@@ -5,18 +5,18 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
+public class ListFuzzySet implements Iterable<FuzzyInteger>  {
 
     private List<FuzzyInteger> list;
 
     private final TNorm tnorm;
 
-    public ListSetFuzzy() {
+    public ListFuzzySet() {
         this.list = new ArrayList<>();
         this.tnorm = new TNorm(Math::min);
     }
 
-    public ListSetFuzzy(TNorm tnorm) {
+    public ListFuzzySet(TNorm tnorm) {
         this.list = new ArrayList<>();
         this.tnorm = tnorm;
     }
@@ -63,7 +63,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @return List<Double> of the length of the fuzzy subset containing all the memberships in the original set in case
      * that they are a subset or full of 0.0 otherwise.
      */
-    public double containsAll(ListSetFuzzy fuzzySubsetCandidate) {
+    public double containsAll(ListFuzzySet fuzzySubsetCandidate) {
         double result = 0.0;
         int i = 0;
         int j = 0;
@@ -100,7 +100,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
      * @return real number contaning the minimum value of the pertinences in the intersection set
      */
-    public double retainAll(ListSetFuzzy intersectedSet) {
+    public double retainAll(ListFuzzySet intersectedSet) {
         double result = 1.0;
         int i = size() - 1;
         int j = intersectedSet.size() - 1;
@@ -169,7 +169,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @param x the list of elements to be removed from this set
      * @return the minimum of all the old membership degrees of every element to be removed
      */
-    public double removeAll(ListSetFuzzy x) {
+    public double removeAll(ListFuzzySet x) {
         double result = 0.0;
         int i = size() - 1;
         int xIndex = x.size() - 1;
@@ -228,7 +228,7 @@ public class ListSetFuzzy implements Iterable<FuzzyInteger>  {
      * @param listSet Elements to be added
      * @return Maximum membership from changed FuzzyIntegers
      */
-    public double addAll(ListSetFuzzy listSet) {
+    public double addAll(ListFuzzySet listSet) {
         double result = 0.0;
 
         int compareResult, i = 0, j = 0;

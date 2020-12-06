@@ -1,14 +1,11 @@
 package main;
 
-import java.sql.SQLOutput;
-import java.util.*;
-
 public class Main {
 
     public static void main(String[] args) {
         testListSetContains();
 
-        testListSetContainsRetainsAll();
+        testListSetContainsAllRetainsAll();
 
         testListSetRemove();
 
@@ -19,17 +16,17 @@ public class Main {
         testListSetAddAll();
 
 
-        testListSetFuzzyRemove();
+        testListFuzzySetRemove();
 
-        testListSetFuzzyRemoveAll();
+        testListFuzzySetRemoveAll();
 
-        testListSetFuzzyContains();
+        testListFuzzySetContains();
 
-        testListSetFuzzyContainsAll();
+        testListFuzzySetContainsAll();
 
-        testListSetFuzzyRetainAll();
+        testListFuzzySetRetainAll();
 
-        testListSetFuzzyAddAll();
+        testListFuzzySetAddAll();
     }
 
     /**
@@ -57,7 +54,7 @@ public class Main {
         a.add(30);
     }
 
-    static void testListSetContainsRetainsAll() {
+    static void testListSetContainsAllRetainsAll() {
         printTitle("ListSet@containsAll & ListSet@retainAll");
 
         ListSet a = new ListSet();
@@ -68,7 +65,6 @@ public class Main {
 
         b.add(5);
         System.out.println("The set a contains b as a subset: " + a.containsAll(b) + "\n");
-
 
         System.out.println("Calculating the intersection of a " + a + " and b " + b + " returns the boolean: ");
         System.out.println(a.retainAll(b));
@@ -128,8 +124,8 @@ public class Main {
         System.out.println("ListSet a: " + a + ", ListSet b: " + b);
         System.out.println("Result: a has" + (a.addAll(b) ? "" : "n't") + " changed");
         System.out.println("ListSet a: " + a + "\n");
-        a.removeAll(a);
-        b.removeAll(b);
+        a.clear();
+        b.clear();
 
         a.add(0);
         a.add(1);
@@ -141,19 +137,19 @@ public class Main {
     }
 
 
-    static void testListSetFuzzyRemove() {
-        printTitle("ListSetFuzzy@remove");
+    static void testListFuzzySetRemove() {
+        printTitle("ListFuzzySet@remove");
     }
 
-    static void testListSetFuzzyRemoveAll() {
-        printTitle("ListSetFuzzy@removeAll");
+    static void testListFuzzySetRemoveAll() {
+        printTitle("ListFuzzySet@removeAll");
 
-        ListSetFuzzy z = new ListSetFuzzy();
+        ListFuzzySet z = new ListFuzzySet();
         z.add(new FuzzyInteger(3, 0.1));
         z.add(new FuzzyInteger(5, 0.9));
         z.add(new FuzzyInteger(7, 0.3));
         System.out.println(z);
-        ListSetFuzzy w = new ListSetFuzzy();
+        ListFuzzySet w = new ListFuzzySet();
         w.add(new FuzzyInteger(3, 0.01));
         w.add(new FuzzyInteger(5, 0.01));
         w.add(new FuzzyInteger(7, 0.5));
@@ -162,19 +158,24 @@ public class Main {
         System.out.println(hi + ": " + z);
     }
 
-    static void testListSetFuzzyContains() {
-        printTitle("ListSetFuzzy@contains");
+    static void testListFuzzySetContains() {
+        printTitle("ListFuzzySet@contains");
+
+        ListFuzzySet z = new ListFuzzySet();
+        z.add(new FuzzyInteger(3, 0.1));
+        z.add(new FuzzyInteger(5, 0.9));
+        z.add(new FuzzyInteger(7, 0.3));
     }
 
-    static void testListSetFuzzyContainsAll() {
-        printTitle("ListSetFuzzy@containsAll");
+    static void testListFuzzySetContainsAll() {
+        printTitle("ListFuzzySet@containsAll");
     }
 
-    static void testListSetFuzzyRetainAll() {
-        printTitle("ListSetFuzzy@retainAll");
+    static void testListFuzzySetRetainAll() {
+        printTitle("ListFuzzySet@retainAll");
 
-        ListSetFuzzy a = new ListSetFuzzy();
-        ListSetFuzzy b = new ListSetFuzzy();
+        ListFuzzySet a = new ListFuzzySet();
+        ListFuzzySet b = new ListFuzzySet();
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(5, 0.5));
         a.add(new FuzzyInteger(3, 0.3));
@@ -187,11 +188,11 @@ public class Main {
         System.out.println("ListSet a: " + a + "\n");
     }
 
-    static void testListSetFuzzyAddAll() {
-        printTitle("ListSetFuzzy@addAll");
+    static void testListFuzzySetAddAll() {
+        printTitle("ListFuzzySet@addAll");
 
-        ListSetFuzzy a = new ListSetFuzzy();
-        ListSetFuzzy b = new ListSetFuzzy();
+        ListFuzzySet a = new ListFuzzySet();
+        ListFuzzySet b = new ListFuzzySet();
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(5, 0.5));
         a.add(new FuzzyInteger(3, 0.3));
@@ -203,8 +204,8 @@ public class Main {
         System.out.println("Result: " + a.addAll(b));
         System.out.println("ListSet a: " + a + "\n");
 
-        a = new ListSetFuzzy();
-        b = new ListSetFuzzy();
+        a = new ListFuzzySet();
+        b = new ListFuzzySet();
 
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(2, 0.2));
@@ -214,8 +215,8 @@ public class Main {
         System.out.println("Result: " + a.addAll(b));
         System.out.println("ListSet a: " + a + "\n");
 
-        a = new ListSetFuzzy();
-        b = new ListSetFuzzy();
+        a = new ListFuzzySet();
+        b = new ListFuzzySet();
 
         a.add(new FuzzyInteger(1, 0.1));
         a.add(new FuzzyInteger(2, 0.4));
