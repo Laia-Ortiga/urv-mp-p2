@@ -3,13 +3,11 @@ package main;
 import java.util.*;
 
 /**
- * Class defining a Crisp set using a list to implement it.
+ * Class defining a Crisp set of Integers using a list to implement it.
  */
 public class ListSet implements Iterable<Integer> {
 
-    /**
-     * Structure where elements from ListSet are stored.
-     */
+    // Structure where elements from ListSet are stored.
     private final List<Integer> list;
 
     /**
@@ -18,7 +16,7 @@ public class ListSet implements Iterable<Integer> {
     public ListSet() {
         list = new ArrayList<>();
     }
-    
+
     /**
      * Removes all elements from the set.
      */
@@ -28,7 +26,7 @@ public class ListSet implements Iterable<Integer> {
 
     /**
      * Return the number of elements in the set.
-     * @return  Elements in the set
+     * @return elements in the set
      */
     public int size() {
         return list.size();
@@ -36,7 +34,7 @@ public class ListSet implements Iterable<Integer> {
 
     /**
      * Indicates if the set has no elements.
-     * @return wheter set has no elements
+     * @return whether set has no elements
      */
     public boolean isEmpty() {
         return list.isEmpty();
@@ -85,8 +83,7 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Contains method for an element in an ordered (in ascending order) Integer ListSet.
-     * It returns a boolean indicating whether an element is found or not in a ListSet.
+     * Method that returns a boolean indicating whether an element is found or not in a ListSet.
      * It uses a binary search method to find the search element in the set so as to minimize
      * the computational cost of this method, being logarithmic instead of linear.
      * Having the ListSet sorted is one prerequisite.
@@ -99,10 +96,7 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Contains method for a ListSet subset in an ordered (in ascending order) Integer ListSet.
-     * It returns a boolean indicating whether a ListSet is a subset or not of a current ListSet.
-     * It uses the method contains implemented using a binary search, so having the ListSet
-     * sorted is one prerequisite.
+     * Method that returns a boolean indicating whether a ListSet is a subset or not of a current ListSet.
      *
      * @param subsetCandidate to be checked whether it is a subset or not of the current ListSet
      * @return boolean indicating whether a ListSet is a subset or not
@@ -111,6 +105,7 @@ public class ListSet implements Iterable<Integer> {
         int i = 0;
         int j = 0;
 
+        // We use a linear search over two lists that are ordered in ascending order from left to right.
         while (i < size() && j < subsetCandidate.size()) {
             int compareResult = list.get(i).compareTo(subsetCandidate.list.get(j));
             i++;
@@ -125,15 +120,13 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * RetainAll method for calculating the intersection between an Integer ListSet and
+     * RetainAll method for calculating the intersection between a ListSet and
      * the current ListSet.
      * It returns a boolean to indicate whether the set has changed as a result of the call.
-     * It uses the method contains implemented using a binary search, so having both ListSet
-     * sorted are prerequisites.
      *
      * @param intersectedSet ListSet to be intersected with the current ListSet
-     * @return boolean to indicate whether the set has changed as a result of the call, that is, whether any of the elements adjoined
-     * in the new set were not already present in the original set
+     * @return boolean to indicate whether the set has changed as a result of the call, that is, whether any of the
+     * elements adjoined in the new set were not already present in the original set
      */
     public boolean retainAll(ListSet intersectedSet) {
         boolean changed = false;
@@ -159,6 +152,7 @@ public class ListSet implements Iterable<Integer> {
                 }
             }
         }
+        // Erases all the elements that are still not in the intersection
         list.subList(0, i + 1).clear();
         return changed;
     }
@@ -192,21 +186,20 @@ public class ListSet implements Iterable<Integer> {
     public boolean addAll(ListSet listSet) {
         boolean changed = false;
 
-
         int compareResult, i = 0, j = 0;
 
         while (i < size() && j < listSet.size()) {
             compareResult = list.get(i).compareTo(listSet.list.get(j));
 
             // Own element is lower than given element. Search for next given element.
-            if (compareResult == -1) {
+            if (compareResult < 0) {
                 i++;
                 // Both elements are the same. Search for next elements on both ListSets.
             } else if (compareResult == 0) {
                 j++;
                 i++;
                 // Given element is greater than own element. Add it and search for next given element.
-            } else if (compareResult == 1) {
+            } else if (compareResult > 0) {
                 list.add(i, listSet.list.get(j));
                 changed = true;
                 j++;
@@ -229,7 +222,7 @@ public class ListSet implements Iterable<Integer> {
     }
 
     /**
-     * Returns a textual represent of the ListSet.
+     * Returns a textual represention of the ListSet.
      * @return Representation of the ListSet
      */
     @Override

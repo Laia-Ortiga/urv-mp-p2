@@ -5,84 +5,100 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ListFuzzySet implements Iterable<FuzzyInteger>  {
+/**
+ * Class defining a Fuzzy set of FuzzyIntegers using a list to implement it.
+ */
+public class ListFuzzySet implements Iterable<FuzzyInteger> {
 
+    // Structure where elements from ListFuzzySet are stored.
     private List<FuzzyInteger> list;
 
     private final TNorm tnorm;
 
+    /**
+     * Constructs an empty fuzzy set. In this case, the triangular norm that will be used is Gödel-Dummet.
+     */
     public ListFuzzySet() {
         this.list = new ArrayList<>();
         this.tnorm = new TNorm(Math::min);
     }
 
+    /**
+     * Constructs an empty fuzzy set. In this case, the triangular norm that will be used is passed by parameter.
+     *
+     * @param t-norm triangular norm that will be used
+     */
     public ListFuzzySet(TNorm tnorm) {
         this.list = new ArrayList<>();
         this.tnorm = tnorm;
     }
 
+    /**
+     * Removes all elements from the set.
+     */
     public void clear() {
         list.clear();
     }
 
+    /**
+     * Return the number of elements in the set.
+     *
+     * @return elements in the set
+     */
     public int size() {
         return list.size();
     }
 
+    /**
+     * Indicates if the set has no elements.
+     *
+     * @return whether set has no elements
+     */
     public boolean isEmpty() {
         return list.isEmpty();
     }
 
     /**
-     * Contains method for an element in an ordered (in ascending order) Integer ListSetFuzzy.
-     * It returns a real number giving the minimum membership of the element in the set if it is in the set, -1 otherwise
+     * Method that returns a real number giving the t-norm between the membership degree of the element in the set
+     * and the element itself.
      * It uses a binary search method to find the searched element in the set so as to minimize
      * the computational cost of this method, being logarithmic instead of linear.
-     * Having the ListSetFuzzy sorted is one prerequisite.
      *
      * @param fuzzyIntegerElement element to be searched in the ListSetFuzzy
-     * @return real number giving the minimum membership of the element in the set if it is in the set, -1 otherwise
+     * @return real number giving the t-norm between the membership degree of the element in the set
+     * and the element itself.
      */
     public double contains(FuzzyInteger fuzzyIntegerElement) {
         int searchResult = Collections.binarySearch(list, fuzzyIntegerElement);
+        // If the result is non-negative, then the value is in the set.
         if (searchResult >= 0) {
-            // The minimum will always be the value of the element fuzzyIntegerElement
             return tnorm.apply(list.get(searchResult).getMembership(), fuzzyIntegerElement.getMembership());
         }
         return 0.0;
     }
 
     /**
-     * Contains method for a ListSetFuzzy subset in an ordered (in ascending order) Integer ListSetFuzzy.
-     * It returns a list of the length of the fuzzy subset containing all the memberships in the original set in case
-     * that they are a subset or full of 0.0 otherwise.
-     * It uses the method contains implemented using a binary search, so having the ListSetFuzzyFuzzy
-     * sorted is one prerequisite.
+     * Method that returns the maximum of the t-norms between the elements that belong to both sets.
      *
      * @param fuzzySubsetCandidate to be checked whether it is a subset or not of the current ListSetFuzzy
-     * @return List<Double> of the length of the fuzzy subset containing all the memberships in the original set in case
-     * that they are a subset or full of 0.0 otherwise.
+     * @return maximum of the t-norms between the elements that belong to both sets
      */
     public double containsAll(ListFuzzySet fuzzySubsetCandidate) {
         double result = 0.0;
         int i = 0;
         int j = 0;
-
+        // Linear search over two ordered fuzzy sets.
         while (i < size() && j < fuzzySubsetCandidate.size()) {
             int compareResult = list.get(i).compareTo(fuzzySubsetCandidate.list.get(j));
 
-            // Own element is lower than given element. Search for next given element.
             if (compareResult < 0) {
                 i++;
-                // Both elements are the same. Search for next elements on both ListSets.
             } else if (compareResult == 0) {
                 double oldMembership = list.get(i).getMembership();
                 double newMembership = tnorm.apply(oldMembership, fuzzySubsetCandidate.list.get(j).getMembership());
-                // Adds given element if has lower membership
                 result = Math.max(newMembership, result);
                 j++;
                 i++;
-                // Given element is greater than own element. Add it and search for next given element.
             } else {
                 j++;
             }
@@ -91,15 +107,12 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
     }
 
     /**
-     * RetainAll method for calculating the intersection between an Integer ListSetFuzzy and
-     * the current ListSetFuzzy.
-     * It returns a real number contaning the maximum value of the rejected elements memberships for the intersection
-     * set
-     * It uses the method contains implemented using a binary search, so having both ListSetFuzzy
-     * sorted are prerequisites.
+     * Method for calculating the intersection between two fuzzy sets.
+     * It returns a real number contaning the maximum value of the distinct elements memberships for the intersection
+     * set.
      *
      * @param intersectedSet ListSetFuzzy to be intersected with the current ListSetFuzzy
-     * @return real number contaning the maximum value of the rejected elements memberships for the intersection set
+     * @return real number contaning the maximum value of the distinct elements memberships for the intersection set
      */
     public double retainAll(ListFuzzySet intersectedSet) {
         double result = 0.0;
@@ -115,18 +128,15 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
                 double elementMembership = tnorm.apply(oldMembership,
                         intersectedSet.list.get(j).getMembership());
                 list.set(i, new FuzzyInteger(list.get(i).getValue(), elementMembership));
-                if (elementMembership < oldMembership)
-                {
+                if (elementMembership < oldMembership) {
                     result = Math.max(elementMembership, result);
                 }
                 i--;
                 j--;
-            }
-            else {
+            } else {
                 if (comparison < 0) {
                     j--;
-                }
-                else {
+                } else {
                     result = Math.max(list.get(i).getMembership(), result);
                     list.remove(i);
                     i--;
@@ -145,8 +155,7 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
             // Remove entirely from the list if the membership would be 0.0
             list.remove(index);
             return 0.0;
-        }
-        else {
+        } else {
             list.set(index, new FuzzyInteger(list.get(index).getValue(), newMembership));
             return newMembership;
         }
@@ -154,17 +163,19 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
 
     /**
      * Removes an element from this fuzzy set.
-     * Removing doesn't mean to set the membership degree of the element to 0.0, but to the minimum of the old value and
-     * the new value (which is 1.0 - the membership degree of the element to remove)
+     * Removing doesn't mean setting the membership degree of the element to 0.0, but to the t-norm of the old value
+     * and the new value (which is 1.0 - the membership degree of the element to remove).
      *
      * @param x the element to be removed from this set
      * @return the old membership degree of the element to be removed or 0.0 if it wasn't there
      */
     public double remove(FuzzyInteger x) {
-        // search for element with same value
+        // Search for element with same value.
         int index = Collections.binarySearch(list, x);
         if (index >= 0) {
-            return remove(index, x.getMembership());
+            double oldMembership = list.get(index).getMembership();
+            remove(index, x.getMembership());
+            return oldMembership;
         }
         return 0.0;
     }
@@ -173,7 +184,7 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
      * Acts as if using the method remove for every single element of the specified set.
      *
      * @param x the list of elements to be removed from this set
-     * @return the minimum of all the old membership degrees of every element to be removed
+     * @return the maximum of the t-norms between the old memberships and the ones to be removed
      */
     public double removeAll(ListFuzzySet x) {
         double result = 0.0;
@@ -185,11 +196,9 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
         while (i >= 0 && xIndex >= 0) {
             if (list.get(i).compareTo(x.list.get(xIndex)) < 0) {
                 xIndex--;
-            }
-            else if (list.get(i).compareTo(x.list.get(xIndex)) > 0) {
+            } else if (list.get(i).compareTo(x.list.get(xIndex)) > 0) {
                 i--;
-            }
-            else {
+            } else {
                 double oldMembership = list.get(i).getMembership();
                 double newMembership = remove(i, x.list.get(xIndex).getMembership());
                 if (newMembership < oldMembership) {
@@ -203,24 +212,23 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
     }
 
     /**
-     * Adds new element into the list sorting it ascending by value.
-     * Updates element membership in case the newer is greater than the actual membership element.
+     * Method that sets an element in a set with a membership equal p disjunction q, where p is the membership of
+     * the element in the list and q is the membership of the element to be added, and it returns p.
      *
      * @param number Element to be added
-     * @return Previous membership from updated element. 0.0 in case element was not present.
+     * @return the membership of the element to be replaced in the list if it was in the list or 0.0 otherwise
      */
     public double add(FuzzyInteger number) {
         if (number == null) return 0.0;
 
         int index = Collections.binarySearch(list, number);
 
-        // Given element gonna be added on their own position in the ListSet.
         if (index < 0) {
             list.add(-index - 1, number);
             return 0.0;
-        // Adds given element if has lower membership
         } else {
             double oldMembership = list.get(index).getMembership();
+            // Uses the Morgan's law to get a disjunction using the triangular norm.
             double newMembership = 1.0 - tnorm.apply(1.0 - number.getMembership(), 1.0 - oldMembership);
             list.set(index, new FuzzyInteger(number.getValue(), newMembership));
             return oldMembership;
@@ -228,11 +236,10 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
     }
 
     /**
-     * Adds new elements into the list.
-     * In case new element is present on the list, updates the membership value ifthe newer its greater.
+     * Adds as if calling the method add for every element in the parameter.
      *
      * @param listSet Elements to be added
-     * @return Maximum membership from changed FuzzyIntegers
+     * @return the maximum of the new changed memberships
      */
     public double addAll(ListFuzzySet listSet) {
         double result = 0.0;
@@ -265,7 +272,7 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
             }
         }
 
-        // Add the rest of unchecked given elements.
+        // Adds the rest of unchecked given elements.
         if (list.addAll(listSet.list.subList(j, listSet.list.size()))) {
             result = 1.0;
         }
@@ -273,15 +280,26 @@ public class ListFuzzySet implements Iterable<FuzzyInteger>  {
         return result;
     }
 
+    /**
+     * Return elements from the ListFuzzySet in a List.
+     * @return List with ListFuzzySet elements
+     */
     public List<FuzzyInteger> toList() {
         return List.copyOf(this.list);
     }
 
+    /**
+     * Returns an Iterator over elements from ListFuzzySet.
+     * @return Iterator over elements from ListFuzzySet
+     */
     @Override
     public Iterator<FuzzyInteger> iterator() {
         return list.iterator();
     }
-
+    /**
+     * Returns a textual representation of the ListFuzzySet.
+     * @return Representation of the ListFuzzySet
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
